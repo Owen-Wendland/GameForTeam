@@ -1,0 +1,40 @@
+{  
+    "questionAmount":4,
+    
+    "question1":"Whats my name?",
+    "answers1":[  
+        "Owen",
+        "Ojuan",
+        "Ojohn",
+        "Borgh"
+    ],
+    "answer1":"Owen",
+
+    "question2":"Whats burger?",
+    "answers2":[  
+        "burgfer",
+        "smorfh",
+        "Shanun",
+        "Borger"
+    ],
+    "answer2":"Borger",
+
+    "question3":"Whats is love?",
+    "answers3":[  
+        "Not good",
+        "Good",
+        "Idk",
+        "Baby dont hurt me"
+    ],
+    "answer3":"Baby dont hurt me",
+
+    "question4":"Guh?",
+    "answers4":[  
+        "Guh?",
+        "Gir?",
+        "Huh?",
+        "Wis?"
+    ],
+    "answer4":"Guh?"
+
+}
