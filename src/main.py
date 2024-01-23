@@ -1,9 +1,14 @@
+import math
 import pygame
 import pymunk
 import tkinter
 import json
 import random
 import time
+from functools import lru_cache
+
+
+
 
 def main():
     pygame.init()
@@ -26,6 +31,7 @@ def main():
     vel = 20000
     RUNNING = True
     
+    timeTakeForNewQuestion = 3
     chosen = ''
     correct = False
     numcorrect = 0
@@ -35,7 +41,7 @@ def main():
     currQuestion = ''
     currAnswers = [] #answers for each question based on it's position in the list
     currAnswer = ''
-    screen = pygame.display.set_mode((1920, 1080))
+    screen = pygame.display.set_mode((screenSize[0]*2, screenSize[1]*2))
     clock = pygame.time.Clock()
 
     with open('dat/questions.json') as f: 
@@ -48,6 +54,9 @@ def main():
    
     class Player():
         def __init__(self, startx, starty, radius, mass):
+            
+            
+            
             self.ballRadius = radius
             self.ball_body = pymunk.Body(1, pymunk.moment_for_circle(1, 0, self.ballRadius))
             self.ball_body.position = (startx, starty)
@@ -59,10 +68,15 @@ def main():
             world.add(self.ball_body, self.ball_shape)
             self.image = pygame.image.load("digitalminds.png")
             self.image = pygame.transform.scale(self.image, (self.ballRadius * 2,self.ballRadius * 2))
+            self.imageRect = self.image.get_rect(center = self.ball_body.position)
         def draw(self):
+            self.angle_degrees = math.degrees(self.ball_body.angle)
+            self.rotatedimage = pygame.transform.rotate(self.image, -self.angle_degrees)
+            self.imageRect = self.rotatedimage.get_rect(center = self.ball_body.position)
             pygame.draw.circle(screen, (0,0,0), (int(self.ball_body.position.x), int(self.ball_body.position.y)), self.ballRadius + 2)
             pygame.draw.circle(screen, (255,255,255), (int(self.ball_body.position.x), int(self.ball_body.position.y)), self.ballRadius)
-            screen.blit(self.image, (int(self.ball_body.position.x) - self.ballRadius, int(self.ball_body.position.y)-self.ballRadius))        
+            
+            screen.blit(self.rotatedimage, self.imageRect)        
     
     class Line():
         def __init__(self, firstpoint, secondpoint, ela, fric):
@@ -204,13 +218,12 @@ def main():
             first = False
             chosen = '1'
             
-        elif(not(first) and time.time() - firstTime > 5):
+        elif(not(first) and time.time() - firstTime > timeTakeForNewQuestion):
            # numcorrect += 1
             question.reWrite("Correct! you have " + str(numcorrect) + " correct")
             first = True
             reset()
             chosen = ''
-        print(chosen)
         
         if chosen != question.currAnswer and first and chosen != '': # if the chosen answer is correct then print that they are correct
             firstTime = time.time()
@@ -218,7 +231,7 @@ def main():
             first = False
             chosen = '1'
             
-        elif(not(first) and time.time() - firstTime > 5 and chosen != question.currAnswer):
+        elif(not(first) and time.time() - firstTime > timeTakeForNewQuestion and chosen != question.currAnswer):
             question.reWrite("Wrong! you have " + str(numcorrect) + " correct")
             first = True
             reset()
@@ -252,11 +265,11 @@ def main():
                     print(len(players))'''
                 if event.key == pygame.K_UP:
                     up = False
-                    first = player.ball_body.velocity
-                    first = list(first)
-                    if(first[1] > -2 and first[1] < 2):
-                        first = pymunk.Vec2d(first[0], -500)
-                        player.ball_body.velocity = first
+                    first1 = player.ball_body.velocity
+                    first1 = list(first1)
+                    if(first1[1] > -2 and first1[1] < 2):
+                        first1 = pymunk.Vec2d(first1[0], -500)
+                        player.ball_body.velocity = first1
                 if event.key == pygame.K_LSHIFT:
                     vel = 20000
         #if(player.ball_shape.collision_type = )
