@@ -57,7 +57,7 @@ def main():
    
     pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
    
-    class Player():
+    '''class Player():
         def __init__(self, startx, starty, radius, mass):
             self.ballRadius = radius
             self.ball_body = pymunk.Body(1, pymunk.moment_for_circle(1, 0, self.ballRadius))
@@ -78,12 +78,42 @@ def main():
             pygame.draw.circle(screen, (0,0,0), (int(self.ball_body.position.x), int(self.ball_body.position.y)), self.ballRadius + 2)
             pygame.draw.circle(screen, (255,255,255), (int(self.ball_body.position.x), int(self.ball_body.position.y)), self.ballRadius)
             
+            screen.blit(self.rotatedimage, self.imageRect)   '''
+    class Player():
+        def __init__(self, startx, starty, width, height):
+            self.width = width
+            self.height = height
+            self.ball_body = pymunk.Body(1, pymunk.moment_for_box(1,(self.width, self.height)))
+            self.ball_body.position = (startx, starty)
+            self.ball_shape = pymunk.Poly.create_box(self.ball_body, (self.width,self.height))
+            self.ball_shape.elasticity = .5
+            self.ball_shape.friction = 3
+            self.ball_shape.density = 1
+            self.ball_shape.collision_type = 1
+            world.add(self.ball_body, self.ball_shape)
+            self.image = pygame.image.load(cwd + "/large.png")
+            self.image = pygame.transform.scale(self.image, (self.width,self.height))
+            self.imageRect = self.image.get_rect(center = self.ball_body.position)
+        def draw(self):
+            self.vertices = self.ball_shape.get_vertices()
+            for v in self.ball_shape.get_vertices():
+                x = v.rotated(self.ball_shape.body.angle)[0] + self.ball_shape.body.position[0]
+                y = v.rotated(self.ball_shape.body.angle)[1] + self.ball_shape.body.position[1]
+                self.vertices.append((x, y))
+
+            self.angle_degrees = math.degrees(self.ball_body.angle)
+            #self.rect = pygame.transform.rotate(self.rect, -self.angle_degrees)
+            self.rotatedimage = pygame.transform.rotate(self.image, -self.angle_degrees)
+            self.imageRect = self.rotatedimage.get_rect(center = self.ball_body.position)
+            #pygame.draw.polygon(screen, (0,0,0), self.vertices)
+            #pygame.draw.circle(screen, (255,255,255), (int(self.ball_body.position.x), int(self.ball_body.position.y)), self.ballRadius)
+            
             screen.blit(self.rotatedimage, self.imageRect)        
     
     class Line():
         def __init__(self, firstpoint, secondpoint, ela, fric):
             self.point1, self.point2 = firstpoint, secondpoint
-            self.width = 20 #Width of lines
+            self.width = screenSize[0]//screenSize[1]*6 #Width of lines
             
             self.lineBody = pymunk.Body(body_type=pymunk.Body.STATIC) #anchoring the floor
             self.lineShape = pymunk.Segment(self.lineBody, (self.point1), (self.point2), self.width) #connecting the two points to form floor line 
@@ -93,6 +123,7 @@ def main():
         def draw(self):
             pygame.draw.line(screen, (0,0,0), (self.point1), (self.point2), self.width)
     
+    #class for writing text
     class text():
         def __init__(self, textFont, textWritten, x, y, size):
             self.x = x
@@ -125,8 +156,9 @@ def main():
     text4 = text('freesansbold.ttf', currAnswers[3], screenSize[0]*7/8, screenSize[1]/1.222222, 32)
     question = text('freesansbold.ttf', currQuestion, screenSize[0]/2, screenSize[1]/8, 64)
     
-    player = Player(screenSize[0]/2, screenSize[1]/4, 60, 1)
-
+    #make the player (starting x, starting, size, mass)
+    #player = Player(screenSize[0]/2, screenSize[1]/4, abs((screenSize[0] - screenSize[1])/9), 1)
+    player = Player(screenSize[0]/2, screenSize[1]/4, 400,200)
     #making floor
     floor = Line((0,screenSize[1]),(screenSize[0],screenSize[1]), 1, 5)
     wall1 = Line((0,-150),(0,screenSize[1]), 0, 0)
@@ -169,7 +201,7 @@ def main():
             question.reWrite(currQuestion)
             question.currAnswer = js['answer' + str(qNum)]
             
-        return(qNum + 1)
+        #return(qNum + 1)
         #display question (code should go here)
     first = True
     while RUNNING:
@@ -177,6 +209,7 @@ def main():
         screen.fill(BACKGROUND) # creating the sky like god did on the second day
         background()
         
+        #creating the player, edges around screen, aswell as the question and answers
         player.draw()
         floor.draw()
         wall1.draw()
@@ -188,11 +221,13 @@ def main():
         text4.draw()
         question.draw()
         
+        #draw/create the line structure for the player to move on
         for i in range(len(linelist)):
             linelist[i].draw()
         #for i in range(len(players)):
          #   players[i].draw()
         events = pygame.event.get()
+        
         
         #detecting which colored zone the player is in
         px, py = player.ball_body.position.x, player.ball_body.position.y
