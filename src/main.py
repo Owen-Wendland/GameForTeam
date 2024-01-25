@@ -6,7 +6,9 @@ import json
 import random
 import time
 from functools import lru_cache
-
+import os
+cwd = os.getcwd()
+print(cwd)
 
 
 
@@ -36,6 +38,9 @@ def main():
     correct = False
     numcorrect = 0
     
+    pygame.mixer.music.load(cwd + '/song.mp3')
+    pygame.mixer.music.play(-1)
+    
     global qNum
     qNum = 1
     currQuestion = ''
@@ -44,7 +49,7 @@ def main():
     screen = pygame.display.set_mode((screenSize[0]*2, screenSize[1]*2))
     clock = pygame.time.Clock()
 
-    with open('dat/questions.json') as f: 
+    with open(cwd + '/dat/questions.json') as f: 
         data = f.read() 
     # reconstructing the data as a dictionary 
     js = json.loads(data) 
@@ -54,9 +59,6 @@ def main():
    
     class Player():
         def __init__(self, startx, starty, radius, mass):
-            
-            
-            
             self.ballRadius = radius
             self.ball_body = pymunk.Body(1, pymunk.moment_for_circle(1, 0, self.ballRadius))
             self.ball_body.position = (startx, starty)
@@ -66,7 +68,7 @@ def main():
             self.ball_shape.density = mass
             self.ball_shape.collision_type = 1
             world.add(self.ball_body, self.ball_shape)
-            self.image = pygame.image.load("digitalminds.png")
+            self.image = pygame.image.load(cwd + "/digitalminds.png")
             self.image = pygame.transform.scale(self.image, (self.ballRadius * 2,self.ballRadius * 2))
             self.imageRect = self.image.get_rect(center = self.ball_body.position)
         def draw(self):
@@ -126,7 +128,7 @@ def main():
     player = Player(screenSize[0]/2, screenSize[1]/4, 60, 1)
 
     #making floor
-    floor = Line((0,screenSize[1]),(1920,screenSize[1]), 1, 5)
+    floor = Line((0,screenSize[1]),(screenSize[0],screenSize[1]), 1, 5)
     wall1 = Line((0,-150),(0,screenSize[1]), 0, 0)
     wall2 = Line((screenSize[0],-150),(screenSize[0],screenSize[1]), 0, 0)
     roof = Line((0,0),(screenSize[0],0), 1, 0)
@@ -278,6 +280,16 @@ def main():
             player.ball_body.apply_impulse_at_world_point((vel, 0), (10,0))
         if left:
             player.ball_body.apply_impulse_at_world_point((-vel,0), (-10,0))
+           
+        velocity = (list(player.ball_body.velocity)[0] + list(player.ball_body.velocity)[1]) / 2000
+         
+        if(velocity <= -0.1):
+            pygame.mixer.music.set_volume(velocity * -1)
+        elif(velocity >= 0.1):
+            pygame.mixer.music.set_volume(velocity)
+        elif(velocity <= 0.1 and velocity >= -0.1):
+            pygame.mixer.music.set_volume(0.1)
+            
         pygame.display.update()
         
         world.step(1/120.0)
