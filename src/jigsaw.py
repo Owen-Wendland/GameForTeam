@@ -14,11 +14,6 @@ sys.path.append(cwd + '\\dat')
 import constants
 
 
-image = pygame.image.load(cwd + "\\testJigsaw.jpg")
-imageList = [
-    pygame.Surface((100,100))
-]
-
 
 def main():
     pygame.init()
@@ -46,6 +41,7 @@ def main():
     class DraggableShape:
         def __init__(self, id, rect, grid_size, color):
             self.id = id
+            self.isCorrect = 0
             self.rect = rect
             self.dragging = False
             self.grid_size = grid_size
@@ -101,13 +97,40 @@ def main():
             pygame.draw.line(surface, color, (x, 0), (x, screenSize[1]))
         for y in range(0, screenSize[1], grid_size):
             pygame.draw.line(surface, color, (0, y), (screenSize[0], y))
-
+    
+    def check_all_squares_position(shapeList, grid_size):
+        amountCorrect = 0
+        for shape in shapeList:
+            shapeRect = shape.rect
+            i = shape.id
+            if i >= 48:
+                targetRect = (pygame.Rect(((i - 48) * grid_size + (grid_size * 2), grid_size * 4 + (grid_size * 2), grid_size, grid_size)))
+            elif i >= 36:
+                targetRect = (pygame.Rect(((i - 36) * grid_size + (grid_size * 2), grid_size * 3 + (grid_size * 2), grid_size, grid_size)))
+            elif i >= 24:
+                targetRect = (pygame.Rect(((i - 24) * grid_size + (grid_size * 2), grid_size * 2 + (grid_size * 2), grid_size, grid_size)))
+            elif i >= 12:
+                targetRect = (pygame.Rect(((i - 12) * grid_size + (grid_size * 2), grid_size + (grid_size * 2), grid_size, grid_size)))
+            elif i >= 0:
+                targetRect = (pygame.Rect((i * grid_size + (grid_size * 2), grid_size * 2, grid_size, grid_size)))
+           
+            if shapeRect == targetRect:
+                shape.isCorrect = 1
+            else:
+                shape.isCorrect = 0
+            amountCorrect += shape.isCorrect
+        print((100 * amountCorrect)/60)
 
     grid_size = int(screenSize[0] / 16)  # Adjust this factor as needed
-
+    image = pygame.image.load(cwd + "\\large.png")
+    image = pygame.transform.scale(image,(grid_size * 12, grid_size * 5))
+    image2 = pygame.image.load(cwd + "\\gradient.jpg")
+    image2 = pygame.transform.scale(image2,(grid_size * 12, grid_size * 5))
+    bimage = pygame.image.load(cwd + "\\background.png")
+    bimage = pygame.transform.scale(bimage,(grid_size * 16, grid_size * 9))
 
     shapes = []
-   
+    
     for i in range(60):
         shapes.append(DraggableShape(i,pygame.Rect(50, 50, grid_size, grid_size), grid_size, (random.randint(0,255), random.randint(0,255), random.randint(0,255))))
 
@@ -115,7 +138,7 @@ def main():
     while RUNNING:
         events = pygame.event.get()
         screen.fill(BACKGROUND)
-
+        check_all_squares_position(shapes, grid_size)
 
         for event in events:
             if event.type == pygame.KEYDOWN:
@@ -139,34 +162,51 @@ def main():
         for shape in shapes:
             shape.update_position(mouse_pos)
 
-
+        screen.blit(bimage, (0, 0))
         draw_grid(screen, grid_size=grid_size)
 
 
         for shape in shapes:
             pygame.draw.rect(screen, shape.color, shape.rect)
         #print(shapes[0].rect.x)
-        '''for i in shapes:
-            a = image.subsurface(pygame.Rect(1 * image.get_width()//16,image.get_height()//5,grid_size,grid_size))
-            screen.blit(a,(i.rect.x,i.rect.y))'''
-        
-        for i in range(len(shapes)):
+        for shape in shapes:
             try:
-                if(i > 60):
-                    a = image.subsurface(pygame.Rect(((i-60) * image.get_width()//16), image.get_height(), grid_size,grid_size))
-                elif(i > 48):
-                    a = image.subsurface(pygame.Rect(((i-48) * image.get_width()//16), image.get_height()//2, grid_size,grid_size))
-                elif(i > 36):
-                    a = image.subsurface(pygame.Rect(((i-36) * image.get_width()//16), image.get_height()//3, grid_size,grid_size))
-                elif(i > 24):
-                    a = image.subsurface(pygame.Rect(((i-25) * image.get_width()//16), image.get_height()//4, grid_size,grid_size))
-                elif(i > 12):
-                    a = image.subsurface(pygame.Rect(((i-13) * image.get_width()//16), image.get_height()//5, grid_size,grid_size))
-                elif(i >= 0):
-                    a = image.subsurface(pygame.Rect((i * image.get_width()//16),0, 0,  grid_size))
-                screen.blit(a,(shapes[i].rect.x,shapes[i].rect.y))
-            except:
-                print(i)
+                i = shape.id  # Use shape.id directly
+                #if i >= 59:
+                #    a = image.subsurface(pygame.Rect(((i - 59) * grid_size, grid_size * 5, grid_size, grid_size)))
+                if i >= 48:
+                    a = image2.subsurface(pygame.Rect(((i - 48) * grid_size, grid_size * 4, grid_size, grid_size)))
+                elif i >= 36:
+                    a = image2.subsurface(pygame.Rect(((i - 36) * grid_size, grid_size * 3, grid_size, grid_size)))
+                elif i >= 24:
+                    a = image2.subsurface(pygame.Rect(((i - 24) * grid_size, grid_size * 2, grid_size, grid_size)))
+                elif i >= 12:
+                    a = image2.subsurface(pygame.Rect(((i - 12) * grid_size, grid_size, grid_size, grid_size)))
+                elif i >= 0:
+                    a = image2.subsurface(pygame.Rect((i * grid_size, 0, grid_size, grid_size)))
+                screen.blit(a, (shape.rect.x, shape.rect.y))
+            except Exception as e:
+                print(f"Error blitting image onto shape {shape.id}: {e}")
+        
+        for shape in shapes:
+            try:
+                i = shape.id  # Use shape.id directly
+                #if i >= 59:
+                #    a = image.subsurface(pygame.Rect(((i - 59) * grid_size, grid_size * 5, grid_size, grid_size)))
+                if i >= 48:
+                    a = image.subsurface(pygame.Rect(((i - 48) * grid_size, grid_size * 4, grid_size, grid_size)))
+                elif i >= 36:
+                    a = image.subsurface(pygame.Rect(((i - 36) * grid_size, grid_size * 3, grid_size, grid_size)))
+                elif i >= 24:
+                    a = image.subsurface(pygame.Rect(((i - 24) * grid_size, grid_size * 2, grid_size, grid_size)))
+                elif i >= 12:
+                    a = image.subsurface(pygame.Rect(((i - 12) * grid_size, grid_size, grid_size, grid_size)))
+                elif i >= 0:
+                    a = image.subsurface(pygame.Rect((i * grid_size, 0, grid_size, grid_size)))
+                screen.blit(a, (shape.rect.x, shape.rect.y))
+            except Exception as e:
+                print(f"Error blitting image onto shape {shape.id}: {e}")
+
         pygame.display.update()
 
 
@@ -179,6 +219,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-

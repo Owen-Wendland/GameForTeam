@@ -294,6 +294,7 @@ def main():
                     down = True
                     if(player.angle_degrees > 89 or player.angle_degrees < -89):
                         rotate = True
+                        num = 0
                 if event.key == pygame.K_LSHIFT:
                     vel = 200
             if event.type == pygame.KEYUP: #if there is a key up then see which key(s) are up and respond
@@ -346,16 +347,15 @@ def main():
             if num == 0:
                 first1 = player.ball_body.velocity
                 first1 = list(first1)
-                if(first1[1] > -2 and first1[1] < 2):
-                    first1 = pymunk.Vec2d(first1[0], -400)
-                    player.ball_body.velocity = first1
+                first1 = pymunk.Vec2d(first1[0], -500)
+                player.ball_body.velocity = first1
             if (num % 1 == 0):
-                player.ball_body.angle += math.pi/90
+                player.ball_body.angle += math.pi/60
                 print('wfwakwafwaffwa')
-            if(player.angle_degrees > -2 or player.angle_degrees < 2):
+            num += 1
+            if(player.angle_degrees > -10 and player.angle_degrees < 10):
                 rotate = False
                 num = 0
-            num += 1
         pygame.display.update()
        
         world.step(1/60.0)
