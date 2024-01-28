@@ -1,49 +1,37 @@
 import math
 import pygame
 import pymunk
-import tkinter
-import json
 import random
-import time
-from functools import lru_cache
 import os
 import sys
 
-
 cwd = os.getcwd()
 cwd = str(cwd)
-cwd = cwd.replace('src','')
+cwd = cwd.replace('src', '')
 print(cwd + '\\dat')
 sys.path.append(cwd + '\\dat')
 import constants
 
-
 image = pygame.image.load(cwd + "\\testJigsaw.jpg")
 imageList = []
 
-
 def main():
     pygame.init()
-
 
     BACKGROUND = (150, 150, 150)
     world = pymunk.Space()
     world.gravity = (0, 1000)
     world.damping = .4
 
-
     screenSize = constants.screenSize
     print(screenSize)
-
 
     global RUNNING
     RUNNING = True
 
-
     screen = pygame.display.set_mode((screenSize[0] * 2, screenSize[1] * 2))
     clock = pygame.time.Clock()
     pygame.display.set_mode(screenSize, pygame.FULLSCREEN)
-
 
     class DraggableShape:
         def __init__(self, id, rect, grid_size, color):
@@ -52,7 +40,7 @@ def main():
             self.dragging = False
             self.grid_size = grid_size
             self.color = color
-
+            self.image_portion = self.get_image_portion()
 
         def update_position(self, mouse_pos):
             if self.dragging:
@@ -61,19 +49,16 @@ def main():
                 self.rect.x = max(0, min(self.rect.x, screenSize[0] - self.rect.width))
                 self.rect.y = max(0, min(self.rect.y, screenSize[1] - self.rect.height))
 
-
         def check_collision(self, other_shapes):
             for shape in other_shapes:
                 if shape != self and self.rect.colliderect(shape.rect):
                     return True
             return False
 
-
         def find_closest_non_occupied_square(self, other_shapes):
             orig_x, orig_y = self.rect.x, self.rect.y
             min_distance = float('inf')
             closest_x, closest_y = orig_x, orig_y
-
 
             for x in range(0, screenSize[0], self.grid_size):
                 for y in range(0, screenSize[1], self.grid_size):
@@ -84,10 +69,8 @@ def main():
                             min_distance = distance
                             closest_x, closest_y = x, y
 
-
             self.rect.x, self.rect.y = orig_x, orig_y
             return closest_x, closest_y
-
 
         def snap_to_grid(self, other_shapes):
             if self.check_collision(other_shapes):
@@ -97,6 +80,11 @@ def main():
                 self.rect.x = round(self.rect.x / self.grid_size) * self.grid_size
                 self.rect.y = round(self.rect.y / self.grid_size) * self.grid_size
 
+        def get_image_portion(self):
+            x, y, width, height = self.rect.x, self.rect.y, self.rect.width, self.rect.height
+            image_portion = pygame.Surface((width, height))
+            image_portion.blit(image, (0, 0), (x, y, width, height))
+            return image_portion
 
     def draw_grid(surface, grid_size, color=(100, 100, 100)):
         for x in range(0, screenSize[0], grid_size):
@@ -104,20 +92,18 @@ def main():
         for y in range(0, screenSize[1], grid_size):
             pygame.draw.line(surface, color, (0, y), (screenSize[0], y))
 
-
     grid_size = int(screenSize[0] / 16)  # Adjust this factor as needed
 
-
     shapes = []
-   
-    for i in range(60):
-        shapes.append(DraggableShape(i,pygame.Rect(50, 50, grid_size, grid_size), grid_size, (random.randint(0,255), random.randint(0,255), random.randint(0,255))))
 
+    for i in range(8):
+        for j in range(9):
+            rect = pygame.Rect(j * grid_size, i * grid_size, grid_size, grid_size)
+            shapes.append(DraggableShape(i * 9 + j, rect, grid_size, (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))))
 
     while RUNNING:
         events = pygame.event.get()
         screen.fill(BACKGROUND)
-
 
         for event in events:
             if event.type == pygame.KEYDOWN:
@@ -136,32 +122,22 @@ def main():
                             shape.dragging = False
                             shape.snap_to_grid(shapes)
 
-
         mouse_pos = pygame.mouse.get_pos()
         for shape in shapes:
             shape.update_position(mouse_pos)
 
-
         draw_grid(screen, grid_size=grid_size)
-
 
         for shape in shapes:
             pygame.draw.rect(screen, shape.color, shape.rect)
-        #print(shapes[0].rect.x)
-
+            screen.blit(shape.image_portion, (shape.rect.x, shape.rect.y))
 
         pygame.display.update()
-
 
         world.step(1 / 120.0)
         clock.tick(120)
 
-
     pygame.quit()
-
 
 if __name__ == "__main__":
     main()
-
-
-
