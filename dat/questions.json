@@ -1,5 +1,5 @@
 {  
-    "questionAmount":4,
+    "questionAmount":5,
     
     "question1":"Whats my name?",
     "answers1":[  
@@ -35,6 +35,24 @@
         "Huh?",
         "Wis?"
     ],
-    "answer4":"Guh?"
+    "answer4":"Guh?",
+
+    "question5":"which one?",
+    "answers5":[  
+        "funmi?",
+        "ella?",
+        "sophie?",
+        "owen?"
+    ],
+    "answer5":"sophie?",
+
+    "question6":"best color?",
+    "answers6":[  
+        "purple",
+        "red",
+        "green",
+        "Blue"
+    ],
+    "answer6":"Blue"
 
 }
