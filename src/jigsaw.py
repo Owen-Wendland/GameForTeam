@@ -34,11 +34,10 @@ def main():
     pygame.display.set_mode(screenSize, pygame.FULLSCREEN)
 
     class DraggableShape:
-        def __init__(self, id, rect, grid_size, color):
+        def __init__(self, id, rect, color):
             self.id = id
             self.rect = rect
             self.dragging = False
-            self.grid_size = grid_size
             self.color = color
             self.image_portion = self.get_image_portion()
 
@@ -49,36 +48,9 @@ def main():
                 self.rect.x = max(0, min(self.rect.x, screenSize[0] - self.rect.width))
                 self.rect.y = max(0, min(self.rect.y, screenSize[1] - self.rect.height))
 
-        def check_collision(self, other_shapes):
-            for shape in other_shapes:
-                if shape != self and self.rect.colliderect(shape.rect):
-                    return True
-            return False
-
-        def find_closest_non_occupied_square(self, other_shapes):
-            orig_x, orig_y = self.rect.x, self.rect.y
-            min_distance = float('inf')
-            closest_x, closest_y = orig_x, orig_y
-
-            for x in range(0, screenSize[0], self.grid_size):
-                for y in range(0, screenSize[1], self.grid_size):
-                    self.rect.x, self.rect.y = x, y
-                    if not self.check_collision(other_shapes):
-                        distance = math.sqrt((orig_x - x)**2 + (orig_y - y)**2)
-                        if distance < min_distance:
-                            min_distance = distance
-                            closest_x, closest_y = x, y
-
-            self.rect.x, self.rect.y = orig_x, orig_y
-            return closest_x, closest_y
-
-        def snap_to_grid(self, other_shapes):
-            if self.check_collision(other_shapes):
-                closest_x, closest_y = self.find_closest_non_occupied_square(other_shapes)
-                self.rect.x, self.rect.y = closest_x, closest_y
-            else:
-                self.rect.x = round(self.rect.x / self.grid_size) * self.grid_size
-                self.rect.y = round(self.rect.y / self.grid_size) * self.grid_size
+        def snap_to_grid(self, grid_size):
+            self.rect.x = round(self.rect.x / grid_size) * grid_size
+            self.rect.y = round(self.rect.y / grid_size) * grid_size
 
         def get_image_portion(self):
             x, y, width, height = self.rect.x, self.rect.y, self.rect.width, self.rect.height
@@ -92,14 +64,17 @@ def main():
         for y in range(0, screenSize[1], grid_size):
             pygame.draw.line(surface, color, (0, y), (screenSize[0], y))
 
-    grid_size = int(screenSize[0] / 16)  # Adjust this factor as needed
+    # Calculate grid size and number of rows and columns
+    grid_size = min(image.get_width() // 9, image.get_height() // 8)
+    num_rows = image.get_height() // grid_size
+    num_cols = image.get_width() // grid_size
 
     shapes = []
 
-    for i in range(8):
-        for j in range(9):
+    for i in range(num_rows):
+        for j in range(num_cols):
             rect = pygame.Rect(j * grid_size, i * grid_size, grid_size, grid_size)
-            shapes.append(DraggableShape(i * 9 + j, rect, grid_size, (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))))
+            shapes.append(DraggableShape(i * num_cols + j, rect, (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))))
 
     while RUNNING:
         events = pygame.event.get()
@@ -120,7 +95,7 @@ def main():
                     for shape in shapes:
                         if shape.dragging:
                             shape.dragging = False
-                            shape.snap_to_grid(shapes)
+                            shape.snap_to_grid(grid_size)
 
         mouse_pos = pygame.mouse.get_pos()
         for shape in shapes:
