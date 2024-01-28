@@ -1,11 +1,9 @@
 import math
 import pygame
 import pymunk
-import tkinter
 import json
 import random
 import time
-from functools import lru_cache
 import os
 import sys
 

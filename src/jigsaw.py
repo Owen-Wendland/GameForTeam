@@ -1,11 +1,7 @@
 import math
 import pygame
 import pymunk
-import tkinter
-import json
 import random
-import time
-from functools import lru_cache
 import os
 import sys
 
@@ -19,7 +15,9 @@ import constants
 
 
 image = pygame.image.load(cwd + "\\testJigsaw.jpg")
-imageList = []
+imageList = [
+    pygame.Surface((100,100))
+]
 
 
 def main():
@@ -148,8 +146,27 @@ def main():
         for shape in shapes:
             pygame.draw.rect(screen, shape.color, shape.rect)
         #print(shapes[0].rect.x)
-
-
+        '''for i in shapes:
+            a = image.subsurface(pygame.Rect(1 * image.get_width()//16,image.get_height()//5,grid_size,grid_size))
+            screen.blit(a,(i.rect.x,i.rect.y))'''
+        
+        for i in range(len(shapes)):
+            try:
+                if(i > 60):
+                    a = image.subsurface(pygame.Rect(((i-60) * image.get_width()//16), image.get_height(), grid_size,grid_size))
+                elif(i > 48):
+                    a = image.subsurface(pygame.Rect(((i-48) * image.get_width()//16), image.get_height()//2, grid_size,grid_size))
+                elif(i > 36):
+                    a = image.subsurface(pygame.Rect(((i-36) * image.get_width()//16), image.get_height()//3, grid_size,grid_size))
+                elif(i > 24):
+                    a = image.subsurface(pygame.Rect(((i-25) * image.get_width()//16), image.get_height()//4, grid_size,grid_size))
+                elif(i > 12):
+                    a = image.subsurface(pygame.Rect(((i-13) * image.get_width()//16), image.get_height()//5, grid_size,grid_size))
+                elif(i >= 0):
+                    a = image.subsurface(pygame.Rect((i * image.get_width()//16),0, 0,  grid_size))
+                screen.blit(a,(shapes[i].rect.x,shapes[i].rect.y))
+            except:
+                print(i)
         pygame.display.update()
 
 
