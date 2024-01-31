@@ -91,7 +91,28 @@ def main():
                 self.rect.x = round(self.rect.x / self.grid_size) * self.grid_size
                 self.rect.y = round(self.rect.y / self.grid_size) * self.grid_size
 
-
+    class text():
+        def __init__(self, textFont, textWritten, x, y, size):
+            self.x = x
+            self.y = y
+            self.color = (255,255,255)
+            self.font = pygame.font.Font(textFont, size)
+            self.textWritten = textWritten
+            self.text = self.font.render(self.textWritten, True, self.color)
+            self.currPercent = 0
+            
+            self.location = self.text.get_rect(center = (self.x, self.y))
+            
+        def reWrite(self, textWritten):
+            self.textWritten = textWritten
+            self.text = self.font.render(self.textWritten, True, self.color)
+            self.location = self.text.get_rect(center = (self.x, self.y))
+            
+        def draw(self):
+            screen.blit(self.text, self.location)
+            
+    percent = text('freesansbold.ttf', '0', screenSize[0]/2, screenSize[1]/9, 128)
+            
     def draw_grid(surface, grid_size, color=(100, 100, 100)):
         for x in range(0, screenSize[0], grid_size):
             pygame.draw.line(surface, color, (x, 0), (x, screenSize[1]))
@@ -119,10 +140,11 @@ def main():
             else:
                 shape.isCorrect = 0
             amountCorrect += shape.isCorrect
-        print((100 * amountCorrect)/60)
+        percent.reWrite(str(round((100 * amountCorrect)/60)) + '%')
 
     grid_size = int(screenSize[0] / 16)  # Adjust this factor as needed
-    image = pygame.image.load(cwd + "\\large.png")
+    print(cwd + "\\large.png")
+    image = pygame.image.load(cwd + "\\test.jpg")
     image = pygame.transform.scale(image,(grid_size * 12, grid_size * 5))
     image2 = pygame.image.load(cwd + "\\gradient.jpg")
     image2 = pygame.transform.scale(image2,(grid_size * 12, grid_size * 5))
@@ -206,7 +228,7 @@ def main():
                 screen.blit(a, (shape.rect.x, shape.rect.y))
             except Exception as e:
                 print(f"Error blitting image onto shape {shape.id}: {e}")
-
+        percent.draw()
         pygame.display.update()
 
 
