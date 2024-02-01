@@ -34,14 +34,14 @@ def main():
     vel = 100
     global RUNNING 
     RUNNING = True
+    
+    #sounds
+    walking = pygame.mixer.Sound(cwd + '\\walking.mp3')
    
     timeTakeForNewQuestion = 3
     chosen = ''
     correct = False
     numcorrect = 0
-   
-    pygame.mixer.music.load(cwd + '/song.mp3')
-    pygame.mixer.music.play(-1)
    
     global qNum
     qNum = 1
@@ -59,28 +59,6 @@ def main():
    
     pygame.display.set_mode(screenSize, pygame.FULLSCREEN)
    
-    '''class Player():
-        def __init__(self, startx, starty, radius, mass):
-            self.ballRadius = radius
-            self.ball_body = pymunk.Body(1, pymunk.moment_for_circle(1, 0, self.ballRadius))
-            self.ball_body.position = (startx, starty)
-            self.ball_shape = pymunk.Circle(self.ball_body, self.ballRadius)
-            self.ball_shape.elasticity = .5
-            self.ball_shape.friction = 3
-            self.ball_shape.density = mass
-            self.ball_shape.collision_type = 1
-            world.add(self.ball_body, self.ball_shape)
-            self.image = pygame.image.load(cwd + "/digitalminds.png")
-            self.image = pygame.transform.scale(self.image, (self.ballRadius * 2,self.ballRadius * 2))
-            self.imageRect = self.image.get_rect(center = self.ball_body.position)
-        def draw(self):
-            self.angle_degrees = math.degrees(self.ball_body.angle)
-            self.rotatedimage = pygame.transform.rotate(self.image, -self.angle_degrees)
-            self.imageRect = self.rotatedimage.get_rect(center = self.ball_body.position)
-            pygame.draw.circle(screen, (0,0,0), (int(self.ball_body.position.x), int(self.ball_body.position.y)), self.ballRadius + 2)
-            pygame.draw.circle(screen, (255,255,255), (int(self.ball_body.position.x), int(self.ball_body.position.y)), self.ballRadius)
-           
-            screen.blit(self.rotatedimage, self.imageRect)   '''
     class Player():
         def __init__(self, startx, starty, width, height):
             self.dir = 'right'
@@ -95,15 +73,19 @@ def main():
             self.ball_shape.collision_type = 1
             world.add(self.ball_body, self.ball_shape)
             #self.image = pygame.image.load(cwd + "/large.png")
-            self.imageRight = pygame.image.load(cwd + "\\images\\robot.png")
-            self.imageRight = pygame.transform.scale(self.imageRight, (self.width,self.height))
-            self.imageRect = self.imageRight.get_rect(center = self.ball_body.position)
-            self.imageLeft = pygame.transform.flip(self.imageRight, 180, 0)
+            self.spritesRight = []
+            self.currentSprite = 0
+            for i in os.listdir(cwd+'\\robotSprites'):
+                image = pygame.image.load(cwd + "\\robotSprites\\" + i)
+                self.imageRect = image.get_rect(center = self.ball_body.position)
+                self.spritesRight.append(pygame.transform.scale(image, (self.width,self.height)))
+            self.spritesLeft = []
+            for i in range(len(self.spritesRight)):
+                self.spritesLeft.append(pygame.transform.flip(self.spritesRight[i], 180, 0))
+            self.image = self.spritesRight[6]
+            self.action = 'standing'
+            
         def draw(self):
-            if(self.dir == 'right'):
-                self.image = self.imageRight
-            else:
-                self.image = self.imageLeft
             self.vertices = self.ball_shape.get_vertices()
             for v in self.ball_shape.get_vertices():
                 x = v.rotated(self.ball_shape.body.angle)[0] + self.ball_shape.body.position[0]
@@ -113,11 +95,35 @@ def main():
             self.angle_degrees = math.degrees(self.ball_body.angle)
             #self.rect = pygame.transform.rotate(self.rect, -self.angle_degrees)
             self.rotatedimage = pygame.transform.rotate(self.image, -self.angle_degrees)
-            self.imageRect = self.rotatedimage.get_rect(center = self.ball_body.position)
+            if (self.action == 'walking' or self.action == 'standing'):
+                self.imageRect = self.rotatedimage.get_rect(center = (self.ball_body.position.x,self.ball_body.position.y+screenSize[1]//60))
+            if (self.action == 'running'):
+                self.imageRect = self.rotatedimage.get_rect(center = (self.ball_body.position.x,self.ball_body.position.y+screenSize[1]//45))
             #pygame.draw.polygon(screen, (0,0,0), self.vertices)
             #pygame.draw.circle(screen, (255,255,255), (int(self.ball_body.position.x), int(self.ball_body.position.y)), self.ballRadius)
            
             screen.blit(self.rotatedimage, self.imageRect)        
+        def update(self,action):
+            self.action = action
+            self.currentSprite += 1/10
+            self.currentSpriteInt = int(self.currentSprite)
+            if(self.dir == 'right'):
+                self.images = self.spritesRight
+            else:
+                self.images = self.spritesLeft
+                
+            if (self.action == 'standing'):
+                self.currentSprite = 6
+                self.image = self.images[self.currentSpriteInt]
+            if (self.action == 'walking'):
+                if self.currentSprite < 7 or self.currentSprite > 9:
+                    self.currentSprite = 7
+                self.image = self.images[self.currentSpriteInt]
+            if (self.action == 'running'):
+                if self.currentSprite < 3 or self.currentSprite > 5:
+                    self.currentSprite = 3
+                self.image = self.images[self.currentSpriteInt]
+            
    
     class Line():
         def __init__(self, firstpoint, secondpoint, ela, fric):
@@ -167,7 +173,7 @@ def main():
    
     #make the player (starting x, starting, size, mass)
     #player = Player(screenSize[0]/2, screenSize[1]/4, abs((screenSize[0] - screenSize[1])/9), 1)
-    player = Player(screenSize[0]/2, screenSize[1]/4, screenSize[0]//8,screenSize[0]//16)
+    player = Player(screenSize[0]/2, screenSize[1]/4, screenSize[0]//16,screenSize[0]//16)
     #making floor
     floor = Line((0,screenSize[1]),(screenSize[0],screenSize[1]), 1, 5)
     wall1 = Line((0,-150),(0,screenSize[1]), 0, 0)
@@ -293,8 +299,10 @@ def main():
                     RUNNING = False
                 if event.key == pygame.K_LEFT: #if you press left arrow then you go.... left
                     left = True
+                    walking.play(loops=-1)
                 if event.key == pygame.K_RIGHT: #if you press right arrow then you go..... right
                     right = True
+                    walking.play(loops=-1)
                 if event.key == pygame.K_UP: #if you press uparrow it sets up boolean  to true
                     up = True
                 if event.key == pygame.K_DOWN:
@@ -307,8 +315,10 @@ def main():
             if event.type == pygame.KEYUP: #if there is a key up then see which key(s) are up and respond
                 if event.key == pygame.K_LEFT:
                     left = False
+                    walking.stop()
                 if event.key == pygame.K_RIGHT:
                     right = False
+                    walking.stop()
                 if event.key == pygame.K_DOWN:
                     down = False
                 if event.key == pygame.K_UP:
@@ -322,35 +332,37 @@ def main():
                     vel = 100
         #if(player.ball_shape.collision_type = )
         #print(int(player.angle_degrees))
-        if(player.angle_degrees > -25 and player.angle_degrees < 25):
-            if right:
-                xr = player.ball_body.velocity
-                xr = list(xr)
-                xr = pymunk.Vec2d(vel, xr[1])
-                player.ball_body.velocity = xr
-                player.ball_body.apply_impulse_at_world_point((vel*200, 0), (10,0))
-                player.dir = 'right'
-            if left:
-                xl = player.ball_body.velocity
-                xl = list(xl)
-                xl = pymunk.Vec2d(-vel, xl[1])
-                player.ball_body.velocity = xl
-                player.ball_body.apply_impulse_at_world_point((-vel*200,0), (-10,0))
-                player.dir = 'left'
-           
-        velocity = (list(player.ball_body.velocity)[0] + list(player.ball_body.velocity)[1]) / 2000
+        if right:
+            xr = player.ball_body.velocity
+            xr = list(xr)
+            xr = pymunk.Vec2d(vel, xr[1])
+            player.ball_body.velocity = xr
+            player.dir = 'right'
+            if(vel == 200):
+                player.update('running')
+            else:
+                player.update('walking')
+        elif left:
+            xl = player.ball_body.velocity
+            xl = list(xl)
+            xl = pymunk.Vec2d(-vel, xl[1])
+            player.ball_body.velocity = xl
+            player.dir = 'left'
+            if(vel == 200):
+                player.update('running')
+            else:
+                player.update('walking')
+        else:
+            player.update('standing')
+            
+        if(player.angle_degrees != 0):
+            player.ball_body.angle = 0
          
-        if(velocity <= -0.1):
-            pygame.mixer.music.set_volume(velocity * -1)
-        elif(velocity >= 0.1):
-            pygame.mixer.music.set_volume(velocity)
-        elif(velocity <= 0.1 and velocity >= -0.1):
-            pygame.mixer.music.set_volume(0.1)
         
         if(player.angle_degrees > 360 or player.angle_degrees < -360):
             player.ball_body.angle = 0
         #print(player.angle_degrees)
-        
+        '''
         if(rotate):
             print(num)
             if num == 0:
@@ -364,7 +376,7 @@ def main():
             num += 1
             if(player.angle_degrees > -10 and player.angle_degrees < 10):
                 rotate = False
-                num = 0
+                num = 0'''
         pygame.display.update()
        
         world.step(1/60.0)

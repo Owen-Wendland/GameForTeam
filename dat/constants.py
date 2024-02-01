@@ -1,4 +1,3 @@
-adawdwa = 2
 import os
 import tkinter
 
