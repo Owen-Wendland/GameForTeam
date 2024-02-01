@@ -1,70 +1,109 @@
-import pygame
-import sys
+'''
+import tkinter as tk
+from tkinter import filedialog
+import subprocess
+import shutil
 import os
-from pygame.locals import *
 
-cwd = os.getcwd()
-cwd = str(cwd)
-cwd = cwd.replace('src','')
-sys.path.append(cwd + '\\dat')
-import constants
+def run_quiz():
+    subprocess.run(["python", "src\\main.py"])
 
-# Initialize Pygame
-pygame.init()
+def choose_jigsaw_image():
+    file_path = filedialog.askopenfilename(title="Choose Jigsaw Image", filetypes=[("Image files", "*.png;*.jpg;*.jpeg")])
+    if file_path:
+        shutil.copy(file_path, "images\\large.png")
+    subprocess.run(["python", "src\\jigsaw.py"])
 
-# Constants
-SCREEN_WIDTH = constants.screenSize[0]
-SCREEN_HEIGHT = constants.screenSize[1]
-BUTTON_WIDTH = constants.screenSize[0]/2
-BUTTON_HEIGHT = constants.screenSize[1]/3
-BUTTON_MARGIN = constants.screenSize[1]/12
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
+def exit_program():
+    root.destroy()
 
-# Create the screen
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Pygame Menu")
+# Create the main window
+root = tk.Tk()
+root.title("Menu")
 
-# Font
-font = pygame.font.Font(None, 36)
+# Add buttons to the window
+quiz_button = tk.Button(root, text="Quiz", command=run_quiz)
+quiz_button.pack(pady=10)
 
-# Function to display text on a button
-def draw_text(text, font, color, x, y):
-    text_surface = font.render(text, True, color)
-    text_rect = text_surface.get_rect(center=(x, y))
-    screen.blit(text_surface, text_rect)
+jigsaw_button = tk.Button(root, text="Jigsaw", command=choose_jigsaw_image)
+jigsaw_button.pack(pady=10)
 
-# Main loop
-while True:
-    for event in pygame.event.get():
-        if event.type == QUIT:
-            pygame.quit()
-            sys.exit()
+exit_button = tk.Button(root, text="Exit", command=exit_program)
+exit_button.pack(pady=10)
 
-        if event.type == MOUSEBUTTONDOWN:
-            if start_button_rect.collidepoint(event.pos):
-                # Execute code from main.py when the "Start" button is pressed
-                os.system('python' + ' "' + str(os.getcwd()) + '\\src\\main.py"')
-                #pygame.quit()
-                #sys.exit()
-                
-            elif end_button_rect.collidepoint(event.pos):
-                # Close the program when the "End" button is pressed
-                pygame.quit()
-                sys.exit()
+# Run the main loop
+root.mainloop()
+'''
+import tkinter as tk
+from tkinter import filedialog, messagebox
+import subprocess
+import shutil
+import os
 
-    # Draw the buttons
-    screen.fill(WHITE)
+def choose_jigsaw_image():
+    # Path to the images folder
+    images_folder = "images"
+    
+    # Get a list of all image files in the folder
+    image_files = [f for f in os.listdir(images_folder) if f.lower().endswith((".png", ".jpg", ".jpeg"))]
 
-    start_button_rect = pygame.draw.rect(screen, BLACK, (SCREEN_WIDTH // 2 - BUTTON_WIDTH // 2,
-                                                         SCREEN_HEIGHT // 2 - BUTTON_HEIGHT - BUTTON_MARGIN,
-                                                         BUTTON_WIDTH, BUTTON_HEIGHT))
-    draw_text("Start", font, WHITE, SCREEN_WIDTH // 2, 
-              SCREEN_HEIGHT // 2 - BUTTON_HEIGHT // 2 - BUTTON_MARGIN)
+    if not image_files:
+        messagebox.showinfo("No Images", "No images found in the 'images' folder.")
+        return
 
-    end_button_rect = pygame.draw.rect(screen, BLACK, (SCREEN_WIDTH // 2 - BUTTON_WIDTH // 2,
-                                                       SCREEN_HEIGHT // 2 + BUTTON_MARGIN,
-                                                       BUTTON_WIDTH, BUTTON_HEIGHT))
-    draw_text("End", font, WHITE, SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + BUTTON_HEIGHT // 2 + BUTTON_MARGIN)
+    # Create a new window for selecting the image
+    selection_window = tk.Toplevel(root)
+    selection_window.title("Choose Jigsaw Image")
 
-    pygame.display.flip()
+    # Create a listbox to display the images
+    listbox = tk.Listbox(selection_window, selectmode=tk.SINGLE)
+    listbox.pack(padx=10, pady=10)
+
+    # Populate the listbox with image file names
+    for image_file in image_files:
+        listbox.insert(tk.END, image_file)
+
+    def on_select():
+        # Get the selected image file
+        selected_index = listbox.curselection()
+        if selected_index:
+            selected_image = image_files[selected_index[0]]
+
+            # Copy the selected image to replace the existing one used in jigsaw.py
+            selected_image_path = os.path.join(images_folder, selected_image)
+            shutil.copy(selected_image_path, "images\\large.png")
+
+            # Close the selection window
+            selection_window.destroy()
+            subprocess.run(["python", "src\\jigsaw.py"])
+
+    # Create a button to confirm the selection
+    confirm_button = tk.Button(selection_window, text="Select", command=on_select, padx=10, pady=5)
+    confirm_button.pack(pady=10)
+
+# ... (rest of the code remains unchanged)
+def run_quiz():
+    subprocess.run(["python", "src\\main.py"])
+
+def exit_program():
+    root.destroy()
+
+# Create the main window
+root = tk.Tk()
+root.title("Menu")
+
+# Configure button styles
+button_style = {'padx': 20, 'pady': 10}
+
+# Add buttons to the window with the configured style
+quiz_button = tk.Button(root, text="Quiz", command=run_quiz, **button_style)
+quiz_button.pack(pady=10)
+
+jigsaw_button = tk.Button(root, text="Jigsaw", command=choose_jigsaw_image, **button_style)
+jigsaw_button.pack(pady=10)
+
+exit_button = tk.Button(root, text="Exit", command=exit_program, **button_style)
+exit_button.pack(pady=10)
+
+# Run the main loop
+root.mainloop()

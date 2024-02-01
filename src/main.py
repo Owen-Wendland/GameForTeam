@@ -83,6 +83,7 @@ def main():
             screen.blit(self.rotatedimage, self.imageRect)   '''
     class Player():
         def __init__(self, startx, starty, width, height):
+            self.dir = 'right'
             self.width = width
             self.height = height
             self.ball_body = pymunk.Body(1, pymunk.moment_for_box(1,(self.width, self.height)))
@@ -94,10 +95,15 @@ def main():
             self.ball_shape.collision_type = 1
             world.add(self.ball_body, self.ball_shape)
             #self.image = pygame.image.load(cwd + "/large.png")
-            self.image = pygame.image.load(cwd + "/large.png")
-            self.image = pygame.transform.scale(self.image, (self.width,self.height))
-            self.imageRect = self.image.get_rect(center = self.ball_body.position)
+            self.imageRight = pygame.image.load(cwd + "\\images\\robot.png")
+            self.imageRight = pygame.transform.scale(self.imageRight, (self.width,self.height))
+            self.imageRect = self.imageRight.get_rect(center = self.ball_body.position)
+            self.imageLeft = pygame.transform.flip(self.imageRight, 180, 0)
         def draw(self):
+            if(self.dir == 'right'):
+                self.image = self.imageRight
+            else:
+                self.image = self.imageLeft
             self.vertices = self.ball_shape.get_vertices()
             for v in self.ball_shape.get_vertices():
                 x = v.rotated(self.ball_shape.body.angle)[0] + self.ball_shape.body.position[0]
@@ -193,6 +199,7 @@ def main():
         qNum += 1
         if qNum <= qAmount:
             currAnswers = js['answers' + str(qNum)]
+            random.shuffle(currAnswers)
             currQuestion = js['question' + str(qNum)]
             
             player.ball_body.angle = 0
@@ -322,12 +329,14 @@ def main():
                 xr = pymunk.Vec2d(vel, xr[1])
                 player.ball_body.velocity = xr
                 player.ball_body.apply_impulse_at_world_point((vel*200, 0), (10,0))
+                player.dir = 'right'
             if left:
                 xl = player.ball_body.velocity
                 xl = list(xl)
                 xl = pymunk.Vec2d(-vel, xl[1])
                 player.ball_body.velocity = xl
                 player.ball_body.apply_impulse_at_world_point((-vel*200,0), (-10,0))
+                player.dir = 'left'
            
         velocity = (list(player.ball_body.velocity)[0] + list(player.ball_body.velocity)[1]) / 2000
          

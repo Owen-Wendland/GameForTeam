@@ -140,15 +140,19 @@ def main():
             else:
                 shape.isCorrect = 0
             amountCorrect += shape.isCorrect
-        percent.reWrite(str(round((100 * amountCorrect)/60)) + '%')
+        if(round((100 * amountCorrect)/60) == 100):
+            percent.reWrite('YOU WIN')
+        else:
+            percent.reWrite(str(round((100 * amountCorrect)/60)) + '%')
 
     grid_size = int(screenSize[0] / 16)  # Adjust this factor as needed
-    print(cwd + "\\large.png")
-    image = pygame.image.load(cwd + "\\large.png")
+    print(cwd + "\\images\\large.png")
+    print(os.listdir(cwd + "\\images"))
+    image = pygame.image.load(cwd + "\\images\\large.png")
     image = pygame.transform.scale(image,(grid_size * 12, grid_size * 5))
-    image2 = pygame.image.load(cwd + "\\gradient.jpg")
+    image2 = pygame.image.load(cwd + "\\images\\gradient.jpg")
     image2 = pygame.transform.scale(image2,(grid_size * 12, grid_size * 5))
-    bimage = pygame.image.load(cwd + "\\background.png")
+    bimage = pygame.image.load(cwd + "\\images\\background2.png")
     bimage = pygame.transform.scale(bimage,(grid_size * 16, grid_size * 9))
 
     shapes = []
@@ -185,7 +189,7 @@ def main():
             shape.update_position(mouse_pos)
 
         screen.blit(bimage, (0, 0))
-        draw_grid(screen, grid_size=grid_size)
+        #draw_grid(screen, grid_size=grid_size)
 
 
         for shape in shapes:
