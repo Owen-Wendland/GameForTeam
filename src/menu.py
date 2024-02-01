@@ -1,39 +1,3 @@
-'''
-import tkinter as tk
-from tkinter import filedialog
-import subprocess
-import shutil
-import os
-
-def run_quiz():
-    subprocess.run(["python", "src\\main.py"])
-
-def choose_jigsaw_image():
-    file_path = filedialog.askopenfilename(title="Choose Jigsaw Image", filetypes=[("Image files", "*.png;*.jpg;*.jpeg")])
-    if file_path:
-        shutil.copy(file_path, "images\\large.png")
-    subprocess.run(["python", "src\\jigsaw.py"])
-
-def exit_program():
-    root.destroy()
-
-# Create the main window
-root = tk.Tk()
-root.title("Menu")
-
-# Add buttons to the window
-quiz_button = tk.Button(root, text="Quiz", command=run_quiz)
-quiz_button.pack(pady=10)
-
-jigsaw_button = tk.Button(root, text="Jigsaw", command=choose_jigsaw_image)
-jigsaw_button.pack(pady=10)
-
-exit_button = tk.Button(root, text="Exit", command=exit_program)
-exit_button.pack(pady=10)
-
-# Run the main loop
-root.mainloop()
-'''
 import tkinter as tk
 from tkinter import filedialog, messagebox
 import subprocess
@@ -91,6 +55,13 @@ def exit_program():
 # Create the main window
 root = tk.Tk()
 root.title("Menu")
+
+# Get the screen width and height
+screen_width = root.winfo_screenwidth()
+screen_height = root.winfo_screenheight()
+
+# Set the size of the menu window to the size of the screen
+root.geometry(f"{screen_width}x{screen_height}")
 
 # Configure button styles
 button_style = {'padx': 20, 'pady': 10}
