@@ -62,9 +62,10 @@ screen_height = root.winfo_screenheight()
 
 # Set the size of the menu window to the size of the screen
 root.geometry(f"{screen_width}x{screen_height}")
+root.attributes('-fullscreen',True)
 
 # Configure button styles
-button_style = {'padx': 20, 'pady': 10}
+button_style = {'padx': screen_width, 'pady': screen_height//6}
 
 # Add buttons to the window with the configured style
 quiz_button = tk.Button(root, text="Quiz", command=run_quiz, **button_style)
