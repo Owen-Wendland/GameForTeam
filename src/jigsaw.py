@@ -46,7 +46,10 @@ def main():
             self.dragging = False
             self.grid_size = grid_size
             self.color = color
-
+            self.connectedTop = False
+            self.connectedBottom = False
+            self.connectedLeft = False
+            self.connectedRight = False
 
         def update_position(self, mouse_pos):
             if self.dragging:
@@ -54,6 +57,7 @@ def main():
                 self.rect.y = mouse_pos[1] - self.offset[1]
                 self.rect.x = max(0, min(self.rect.x, screenSize[0] - self.rect.width))
                 self.rect.y = max(0, min(self.rect.y, screenSize[1] - self.rect.height))
+            
 
 
         def check_collision(self, other_shapes):
@@ -113,11 +117,11 @@ def main():
             
     percent = text('freesansbold.ttf', '0', screenSize[0]/2, screenSize[1]/9, 128)
             
-    def draw_grid(surface, grid_size, color=(100, 100, 100)):
+    '''def draw_grid(surface, grid_size, color=(100, 100, 100)):
         for x in range(0, screenSize[0], grid_size):
             pygame.draw.line(surface, color, (x, 0), (x, screenSize[1]))
         for y in range(0, screenSize[1], grid_size):
-            pygame.draw.line(surface, color, (0, y), (screenSize[0], y))
+            pygame.draw.line(surface, color, (0, y), (screenSize[0], y))'''
     
     def check_all_squares_position(shapeList, grid_size):
         amountCorrect = 0
@@ -144,6 +148,44 @@ def main():
             percent.reWrite('YOU WIN')
         else:
             percent.reWrite(str(round((100 * amountCorrect)/60)) + '%')
+    '''def checkSquareConnected():
+        for shape in shapes:
+            for i in range(5):
+                try:
+                    if i == 1 and shape.id < 12:
+                        targetId = shape.id - 12
+                        targetRect = (shape.rect.x, shape.rect.y - grid_size)
+                        shapeRect = (shapes[targetId].rect.x, shapes[targetId].rect.y)
+                        if targetRect == shapeRect:
+                            shape.connectedTop = True
+                            #print(shapes[targetId].rect)
+                            
+                    if i == 2 and shape.id < 36:
+                        targetId = shape.id + 12
+                        targetRect = (shape.rect.x, shape.rect.y + grid_size)
+                        shapeRect = (shapes[targetId].rect.x, shapes[targetId].rect.y)
+                        if targetRect == shapeRect:
+                            shape.connectedBottom = True
+                            #print(shapes[targetId].rect)
+                        
+                    if i == 3 and shape.id % 12 != 0:
+                        targetId = shape.id - 1
+                        targetRect = (shape.rect.x - grid_size, shape.rect.y)
+                        shapeRect = (shapes[targetId].rect.x, shapes[targetId].rect.y)
+                        if targetRect == shapeRect:
+                            shape.connectedLeft = True
+                            #print(shapes[targetId].rect)
+                            print('left')
+                        
+                    if i == 4 and (shape.id + 1) % 12 != 0:
+                        targetId = shape.id + 1
+                        targetRect = (shape.rect.x + grid_size, shape.rect.y)
+                        shapeRect = (shapes[targetId].rect.x, shapes[targetId].rect.y)
+                        if targetRect == shapeRect:
+                            shape.connectedRight = True
+                            #print(shapes[targetId].rect)
+                except:
+                    print(targetId)'''
 
     grid_size = int(screenSize[0] / 16)  # Adjust this factor as needed
     print(cwd + "\\images\\large.png")
@@ -162,6 +204,7 @@ def main():
 
 
     while RUNNING:
+        #checkSquareConnected()
         events = pygame.event.get()
         screen.fill(BACKGROUND)
         check_all_squares_position(shapes, grid_size)
@@ -192,9 +235,9 @@ def main():
         #draw_grid(screen, grid_size=grid_size)
 
 
-        for shape in shapes:
-            pygame.draw.rect(screen, shape.color, shape.rect)
-        #print(shapes[0].rect.x)
+       # for shape in shapes:
+        #    pygame.draw.rect(screen, shape.color, shape.rect)
+            
         for shape in shapes:
             try:
                 i = shape.id  # Use shape.id directly
@@ -232,10 +275,30 @@ def main():
                 screen.blit(a, (shape.rect.x, shape.rect.y))
             except Exception as e:
                 print(f"Error blitting image onto shape {shape.id}: {e}")
+        #checkSquareConnected()
         percent.draw()
         pygame.display.update()
 
-
+        '''for shape in shapes:
+            try:
+                if(shape.connectedTop):
+                        targetId = shape.id - 12
+                        shapes[targetId].rect.x = shape.rect.x
+                        shapes[targetId].rect.y = shape.rect.y - grid_size
+                if(shape.connectedBottom):
+                        targetId = shape.id + 12
+                        shapes[targetId].rect.x = shape.rect.x
+                        shapes[targetId].rect.y = shape.rect.y + grid_size
+                if(shape.connectedLeft):
+                        targetId = shape.id - 1
+                        shapes[targetId].rect.x = shape.rect.x - grid_size
+                        shapes[targetId].rect.y = shape.rect.y 
+                if(shape.connectedRight):
+                        targetId = shape.id + 1
+                        shapes[targetId].rect.x = shape.rect.x + grid_size
+                        shapes[targetId].rect.y = shape.rect.y 
+            except:
+                print(targetId)'''
         world.step(1 / 120.0)
         clock.tick(120)
 
@@ -245,3 +308,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

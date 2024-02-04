@@ -1,8 +1,15 @@
 import tkinter as tk
-from tkinter import filedialog, messagebox
+from tkinter import Label, filedialog, messagebox
 import subprocess
 import shutil
 import os
+import sys
+cwd = os.getcwd()
+cwd = str(cwd)
+cwd = cwd.replace('src','')
+print(cwd + '\\dat')
+sys.path.append(cwd + '\\dat')
+import constants
 
 def choose_jigsaw_image():
     # Path to the images folder
@@ -47,7 +54,7 @@ def choose_jigsaw_image():
 
 # ... (rest of the code remains unchanged)
 def run_quiz():
-    subprocess.run(["python", "src\\main.py"])
+    subprocess.run(["python", cwd + "\\src\\main.py"])
 
 def exit_program():
     root.destroy()
@@ -60,22 +67,31 @@ root.title("Menu")
 screen_width = root.winfo_screenwidth()
 screen_height = root.winfo_screenheight()
 
+bgimg = cwd + "\\images\\backMenu.png"
+bgimg= tk.PhotoImage(master=root,file = bgimg, width= screen_width, height= screen_height)
+bgimg.width = screen_width
+bgimg.height = screen_height
+label1 = Label(root, image = bgimg) 
+label1.place(x = 0, y = 0) 
+
 # Set the size of the menu window to the size of the screen
 root.geometry(f"{screen_width}x{screen_height}")
 root.attributes('-fullscreen',True)
 
 # Configure button styles
-button_style = {'padx': screen_width, 'pady': screen_height//6}
+qbutton_style = {'padx': screen_width//10, 'pady': screen_height//12}
+jbutton_style = {'padx': screen_width//10, 'pady': screen_height//12}
+ebutton_style = {'padx': screen_width//10, 'pady': screen_height//12}
 
 # Add buttons to the window with the configured style
-quiz_button = tk.Button(root, text="Quiz", command=run_quiz, **button_style)
-quiz_button.pack(pady=10)
+quiz_button = tk.Button(root, text="Quiz", command=run_quiz, **qbutton_style)
+quiz_button.place(x=screen_width//4 - screen_width//10,y=screen_width//3)
 
-jigsaw_button = tk.Button(root, text="Jigsaw", command=choose_jigsaw_image, **button_style)
-jigsaw_button.pack(pady=10)
+jigsaw_button = tk.Button(root, text="Jigsaw", command=choose_jigsaw_image, **jbutton_style)
+jigsaw_button.place(x=screen_width//4*3 - screen_width//10,y=screen_width//3)
 
-exit_button = tk.Button(root, text="Exit", command=exit_program, **button_style)
-exit_button.pack(pady=10)
+exit_button = tk.Button(root, text="Exit", command=exit_program, **ebutton_style)
+exit_button.place(x=10, y=10)
 
 # Run the main loop
 root.mainloop()
