@@ -14,11 +14,10 @@ sys.path.append(cwd + '\\dat')
 import constants
 
 
-
 def main():
     pygame.init()
-
-
+    pygame.time.Clock
+    
     BACKGROUND = (150, 150, 150)
     world = pymunk.Space()
     world.gravity = (0, 1000)
@@ -144,10 +143,11 @@ def main():
             else:
                 shape.isCorrect = 0
             amountCorrect += shape.isCorrect
+        time = pygame.time.get_ticks()//1000
         if(round((100 * amountCorrect)/60) == 100):
-            percent.reWrite('YOU WIN')
+            percent.reWrite(f'YOU WON AFTER {time} SECONDS!')
         else:
-            percent.reWrite(str(round((100 * amountCorrect)/60)) + '%')
+            percent.reWrite((str(round((100 * amountCorrect)/60))+'% correct'))
     '''def checkSquareConnected():
         for shape in shapes:
             for i in range(5):
@@ -202,7 +202,7 @@ def main():
     for i in range(60):
         shapes.append(DraggableShape(i,pygame.Rect(50, 50, grid_size, grid_size), grid_size, (random.randint(0,255), random.randint(0,255), random.randint(0,255))))
 
-
+    
     while RUNNING:
         #checkSquareConnected()
         events = pygame.event.get()

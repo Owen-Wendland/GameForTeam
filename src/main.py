@@ -76,13 +76,13 @@ def main():
             self.spritesRight = []
             self.currentSprite = 0
             for i in os.listdir(cwd+'\\robotSprites'):
-                image = pygame.image.load(cwd + "\\robotSprites\\" + i)
+                image = pygame.image.load(cwd + "\\robotSprites\\" + i)#ugrughrughgrurhgu
                 self.imageRect = image.get_rect(center = self.ball_body.position)
                 self.spritesRight.append(pygame.transform.scale(image, (self.width,self.height)))
             self.spritesLeft = []
             for i in range(len(self.spritesRight)):
                 self.spritesLeft.append(pygame.transform.flip(self.spritesRight[i], 180, 0))
-            self.image = self.spritesRight[6]
+            self.image = self.spritesRight[0]
             self.action = 'standing'
             
         def draw(self):
@@ -108,20 +108,20 @@ def main():
             self.currentSprite += 1/10
             self.currentSpriteInt = int(self.currentSprite)
             if(self.dir == 'right'):
-                self.images = self.spritesRight
-            else:
                 self.images = self.spritesLeft
+            else:
+                self.images = self.spritesRight
                 
             if (self.action == 'standing'):
-                self.currentSprite = 6
+                self.currentSprite = 0
                 self.image = self.images[self.currentSpriteInt]
             if (self.action == 'walking'):
-                if self.currentSprite < 7 or self.currentSprite > 9:
-                    self.currentSprite = 7
+                if self.currentSprite < 0 or self.currentSprite > 2:
+                    self.currentSprite = 0
                 self.image = self.images[self.currentSpriteInt]
             if (self.action == 'running'):
-                if self.currentSprite < 3 or self.currentSprite > 5:
-                    self.currentSprite = 3
+                if self.currentSprite < 0 or self.currentSprite > 2:
+                    self.currentSprite = 0
                 self.image = self.images[self.currentSpriteInt]
             
    
