@@ -23,7 +23,7 @@ def main():
     world.gravity = (0, 1000)
     world.damping = .4
 
-
+    lasttime = True
     screenSize = constants.screenSize
     print(screenSize)
 
@@ -84,6 +84,7 @@ def main():
 
             self.rect.x, self.rect.y = orig_x, orig_y
             return closest_x, closest_y
+            #return closest_x, closest_y
 
 
         def snap_to_grid(self, other_shapes):
@@ -114,7 +115,7 @@ def main():
         def draw(self):
             screen.blit(self.text, self.location)
             
-    percent = text('freesansbold.ttf', '0', screenSize[0]/2, screenSize[1]/9, 128)
+    percent = text('freesansbold.ttf', '0', screenSize[0]/2, screenSize[1]/9, screenSize[0]//10)
             
     '''def draw_grid(surface, grid_size, color=(100, 100, 100)):
         for x in range(0, screenSize[0], grid_size):
@@ -122,7 +123,7 @@ def main():
         for y in range(0, screenSize[1], grid_size):
             pygame.draw.line(surface, color, (0, y), (screenSize[0], y))'''
     
-    def check_all_squares_position(shapeList, grid_size):
+    def check_all_squares_position(shapeList, grid_size,solve):
         amountCorrect = 0
         for shape in shapeList:
             shapeRect = shape.rect
@@ -137,17 +138,17 @@ def main():
                 targetRect = (pygame.Rect(((i - 12) * grid_size + (grid_size * 2), grid_size + (grid_size * 2), grid_size, grid_size)))
             elif i >= 0:
                 targetRect = (pygame.Rect((i * grid_size + (grid_size * 2), grid_size * 2, grid_size, grid_size)))
-           
+            if(solve):
+                shape.rect = targetRect
+            #if the shape is in the correct position
             if shapeRect == targetRect:
                 shape.isCorrect = 1
             else:
                 shape.isCorrect = 0
             amountCorrect += shape.isCorrect
-        time = pygame.time.get_ticks()//1000
-        if(round((100 * amountCorrect)/60) == 100):
-            percent.reWrite(f'YOU WON AFTER {time} SECONDS!')
-        else:
-            percent.reWrite((str(round((100 * amountCorrect)/60))+'% correct'))
+        return(round((100 * amountCorrect)/60))
+    
+    
     '''def checkSquareConnected():
         for shape in shapes:
             for i in range(5):
@@ -202,17 +203,28 @@ def main():
     for i in range(60):
         shapes.append(DraggableShape(i,pygame.Rect(50, 50, grid_size, grid_size), grid_size, (random.randint(0,255), random.randint(0,255), random.randint(0,255))))
 
+    solve = False
     
     while RUNNING:
         #checkSquareConnected()
         events = pygame.event.get()
         screen.fill(BACKGROUND)
-        check_all_squares_position(shapes, grid_size)
-
+        percentCompleted = check_all_squares_position(shapes, grid_size, solve)
+        time = pygame.time.get_ticks()//1000
+        if(percentCompleted == 100 and lasttime):
+            percent.font = pygame.font.Font('freesansbold.ttf', screenSize[0]//18)
+            percent.reWrite(f'YOU WON AFTER {time} SECONDS!')
+            lasttime = False
+            
+        elif(lasttime):
+            percent.reWrite((str(percentCompleted)+'% correct'))
+            
         for event in events:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     RUNNING = False
+                if event.key == pygame.K_p:
+                    solve = True
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:  # Left mouse button
                     for shape in shapes:

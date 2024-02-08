@@ -23,10 +23,10 @@ screen_height = constants.screenSize[1]
 
 # Read the Image
 background_image = Image.open(cwd + "\\images\\menu2.png")
- 
+
 # Resize the image using resize() method
 background_image = background_image.resize((screen_width, screen_height))
- 
+
 background_image = ImageTk.PhotoImage(master=root,image=background_image)
 
 
@@ -36,14 +36,14 @@ background_label.place(relwidth=1, relheight=1)
 
 class variables():
     def __init__(self):
-        self.background_label = False
-        
+        self.background_label = 1
+
 Variables = variables()
 
 def choose_jigsaw_image():
     # Path to the images folder
     images_folder = "images"
-    
+
     # Get a list of all image files in the folder
     image_files = [f for f in os.listdir(images_folder) if f.lower().endswith((".png", ".jpg", ".jpeg"))]
 
@@ -87,50 +87,110 @@ def run_quiz():
 def exit_program():
     root.destroy()
 
-def leaderboard():
-    Variables.background_label = True
+def switchLeaderboard():
+    if(Variables.background_label == 1):
+        Variables.background_label = 2
+        # Read the Image
+        background_image = Image.open(cwd + "\\images\\menu3.png")
+
+        # Resize the image using resize() method
+        background_image = background_image.resize((screen_width, screen_height))
+
+        background_image = ImageTk.PhotoImage(master=root,image=background_image)
+
+        background_label.configure(image=background_image)
+        background_label.image = background_image
+        
+    elif(Variables.background_label == 2):
+        Variables.background_label = 1
+        # Read the Image
+        background_image = Image.open(cwd + "\\images\\menu2.png")
+
+        # Resize the image using resize() method
+        background_image = background_image.resize((screen_width, screen_height))
+
+        background_image = ImageTk.PhotoImage(master=root,image=background_image)
+
+        background_label.configure(image=background_image)
+        background_label.image = background_image
+
+def jigsawLeaderboard():
+    Variables.background_label = 3
     # Read the Image
-    background_image = Image.open(cwd + "\\images\\menu3.png")
-    
+    background_image = Image.open(cwd + "\\images\\menu5.png")
+
     # Resize the image using resize() method
     background_image = background_image.resize((screen_width, screen_height))
-    
+
     background_image = ImageTk.PhotoImage(master=root,image=background_image)
-    
+
+    background_label.configure(image=background_image)
+    background_label.image = background_image
+
+def quizLeaderboard():
+    Variables.background_label = 4
+    # Read the Image
+    background_image = Image.open(cwd + "\\images\\menu6.png")
+
+    # Resize the image using resize() method
+    background_image = background_image.resize((screen_width, screen_height))
+
+    background_image = ImageTk.PhotoImage(master=root,image=background_image)
+
     background_label.configure(image=background_image)
     background_label.image = background_image
     
+def backToLeaderboard():
+    Variables.background_label = 2
+    # Read the Image
+    background_image = Image.open(cwd + "\\images\\menu3.png")
+
+    # Resize the image using resize() method
+    background_image = background_image.resize((screen_width, screen_height))
+
+    background_image = ImageTk.PhotoImage(master=root,image=background_image)
+
+    background_label.configure(image=background_image)
+    background_label.image = background_image
     
 def runButton(event):
     x = event.x
     y = event.y
-    if(not(Variables.background_label)):
-        if(screen_width//12 < x and x < screen_width // 2):
-            if(screen_height//3 < y and y < screen_height//2):
+    #menu page 1
+    if(Variables.background_label == 1):
+        if(int(screen_height * (13/36)) < y and y < int(screen_height * (41/72))):
+            if(int(screen_width* (9/160)) < x and x < int(screen_width * (15/32))):
                 run_quiz()
-                
-            if(int(screen_height * (2/3)) < y and y < int(screen_height * (5/6))):
-                leaderboard()
-                
-        elif(screen_width//2 < x and x < screen_width * 11//12):
-            if(screen_height//3 < y and y < screen_height//2):
+
+            if(int(screen_width* (33/64)) < x and x < int(screen_width * (89/96))):
                 choose_jigsaw_image()
-                
-            if(int(screen_height * (2/3)) < y and y < int(screen_height * (5/6))):
+
+        elif(int(screen_height * (2/3)) < y and y < int(screen_height * (7/8))):
+            if(int(screen_width* (9/160)) < x and x < int(screen_width * (15/32))):
+                switchLeaderboard()
+
+            if(int(screen_width* (33/64)) < x and x < int(screen_width * (89/96))):
                 exit_program()
-                
-                #fix ratios
-    elif(Variables.background_label):
+
+    #menu page 2 (leaderboard menu)
+    elif(Variables.background_label == 2):
         if(int(screen_height * (14/27)) < y and y < int(screen_height * (13/18))):
             if(int(screen_width* (9/160)) < x and x < int(screen_width * (15/32))):
-                print('quiz')
-                
-            if(int(screen_width* (9/160)) < x and x < int(screen_width * (5/6))):
-                print('Jigsaw')
-                
+                quizLeaderboard()
+
+            if(int(screen_width* (33/64)) < x and x < int(screen_width * (89/96))):
+                jigsawLeaderboard()
+
         elif(int(screen_height * (2/3)) < y and y < int(screen_height * (5/6))):
-            print('back')
+            if(int(screen_width* (25/32)) < x and x < int(screen_width * (15/16))):
+                switchLeaderboard()
             
+    #jigsawLeaderboard
+    elif(Variables.background_label == 3 or Variables.background_label == 4):
+        if(int(screen_height * (13/72)) < y and y < int(screen_height * (5/18))):
+            if(int(screen_width* (25/32)) < x and x < int(screen_width * (15/16))):
+                backToLeaderboard()
+
 # Set the size of the menu window to the size of the screen
 root.geometry(f"{screen_width}x{screen_height}")
 root.attributes('-fullscreen',True)

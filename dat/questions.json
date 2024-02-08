@@ -1,58 +1,67 @@
 {  
-    "questionAmount":6,
+    "questionAmount":7,
     
-    "question1":"Whats my name?",
+    "question1":"Whats our team number?",
     "answers1":[  
-        "Owen",
-        "Ojuan",
-        "Ojohn",
-        "Borgh"
+        "5458",
+        "1678",
+        "5848",
+        "8545"
     ],
-    "answer1":"Owen",
+    "answer1":"5458",
 
-    "question2":"Whats burger?",
+    "question2":"Whats language is our robot programmed in?",
     "answers2":[  
-        "burgfer",
-        "smorfh",
-        "Shanun",
-        "Borger"
+        "java",
+        "python",
+        "ruby",
+        "C++"
     ],
-    "answer2":"Borger",
+    "answer2":"java",
 
-    "question3":"Whats is love?",
+    "question3":"Whats is our robot's current name?",
     "answers3":[  
-        "Not good",
-        "Good",
-        "meal and e",
-        "Baby dont hurt me"
+        "Cranium",
+        "Reflex",
+        "Cortex",
+        "Spinbot"
     ],
-    "answer3":"Baby dont hurt me",
+    "answer3":"Spinbot",
 
-    "question4":"Guh?",
+    "question4":"What drive is our robot?",
     "answers4":[  
-        "Guh?",
-        "Gir?",
-        "Huh?",
-        "Wis?"
+        "Tank",
+        "Swerve",
+        "Spin",
+        "Field drive?"
     ],
-    "answer4":"Guh?",
+    "answer4":"Swerve",
 
-    "question5":"which one?",
+    "question5":"What is our team color?",
     "answers5":[  
-        "funmi?",
-        "ella?",
-        "melanie?",
-        "owen?"
-    ],
-    "answer5":"owen?",
-
-    "question6":"best color?",
-    "answers6":[  
-        "Red",
+        "Maroon",
         "Blue",
-        "Yellow",
-        "Green"
+        "Burgandy",
+        "Crimson"
     ],
-    "answer6":"Blue"
+    "answer5":"Burgandy",
+
+    "question6":"What motor controllers are we using",
+    "answers6":[  
+        "Srx's",
+        "Falcons",
+        "Swerve",
+        "SparkMax & Falcon"
+    ],
+    "answer6":"SparkMax & Falcon",
+
+    "question7":"What year did we go to nationals",
+    "answers7":[  
+        "2023",
+        "2022",
+        "2021",
+        "the last three years"
+    ],
+    "answer7":"2022"
 
 }
