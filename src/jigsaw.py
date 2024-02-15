@@ -140,7 +140,7 @@ def main():
                 targetRect = (pygame.Rect((i * grid_size + (grid_size * 2), grid_size * 2, grid_size, grid_size)))
             if(solve):
                 shape.rect = targetRect
-            #if the shape is in the correct position
+            #if the shape is in the correct position 
             if shapeRect == targetRect:
                 shape.isCorrect = 1
             else:
