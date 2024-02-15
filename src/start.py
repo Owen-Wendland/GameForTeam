@@ -14,6 +14,7 @@ sys.path.append(cwd + '\\dat')
 import constants
 
 WHITE = (255, 255, 255)
+BURGANDY = (184, 0, 32)
 BLACK = (0, 0, 0)
 WIDTH, HEIGHT = constants.screenSize[0], constants.screenSize[1]
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -27,17 +28,19 @@ font = pygame.font.Font(None, WIDTH//16)
 
 manager = pygame_gui.UIManager((constants.screenSize[0], constants.screenSize[1]),cwd + '\\dat\\theme.json')
 
-text_input = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((WIDTH*(7/96), HEIGHT*(83/120)), (WIDTH*(5/16), HEIGHT*(5/24))),
+#creates the textbox, top left is at the first width/height pairing
+#then the second width/height pairing is how many pixels it expands from the original point
+text_input = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((WIDTH*(1/12), HEIGHT*(37/54)), (WIDTH*(93/320), HEIGHT*(23/125))),
     manager=manager, object_id=('#main_text_entry'))
 
-text_input2 = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((WIDTH*(41/96), HEIGHT*(83/120)), (WIDTH*(5/24), HEIGHT*(5/24))),
+text_input2 = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((WIDTH*(211/480), HEIGHT*(37/54)), (WIDTH*(35/192), HEIGHT*(23/125))),
     manager=manager, object_id=ObjectID(class_id='@text_entry_line',
                                            object_id='#hello_button'))
 
-text_surface = font.render("Team Number: ", True, BLACK)
-SCREEN.blit(text_surface, (WIDTH//16, HEIGHT//16*1))
-text_surface2 = font.render("Initials: " , True, BLACK)
-SCREEN.blit(text_surface, (WIDTH//16, HEIGHT//16*2))
+#text_surface = font.render("Team Number: ", True, BLACK)
+#SCREEN.blit(text_surface, (WIDTH//16, HEIGHT//16*1))
+#text_surface2 = font.render("Initials: " , True, BLACK)
+#SCREEN.blit(text_surface, (WIDTH//16, HEIGHT//16*2))
 
 clock = pygame.time.Clock()
 
@@ -59,7 +62,7 @@ def show_user_name():
                     if event.key == pygame.K_ESCAPE:
                         pygame.quit()
 
-            SCREEN.fill("maroon")
+            SCREEN.fill(BURGANDY)
 
             userNameText = pygame.font.SysFont("bahnschrift", 100).render(f"Team name is: {var.team}", True, "white")
             userNameRect = userNameText.get_rect(center=(WIDTH/2, HEIGHT/2))
@@ -106,8 +109,8 @@ def get_user_name():
                 
         SCREEN.fill("maroon")
         SCREEN.blit(image, (0, 0))
-        SCREEN.blit(text_surface, (WIDTH/8, HEIGHT//16*3))
-        SCREEN.blit(text_surface2, (WIDTH/8, HEIGHT//16*7))
+        #SCREEN.blit(text_surface, (WIDTH/8, HEIGHT//16*3))
+        #SCREEN.blit(text_surface2, (WIDTH/8, HEIGHT//16*7))
         manager.draw_ui(SCREEN)
 
         pygame.display.update()
