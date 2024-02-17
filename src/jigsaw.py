@@ -4,6 +4,8 @@ import pymunk
 import random
 import os
 import sys
+import pickle
+import time as t
 
 
 cwd = os.getcwd()
@@ -211,13 +213,6 @@ def main():
         screen.fill(BACKGROUND)
         percentCompleted = check_all_squares_position(shapes, grid_size, solve)
         time = pygame.time.get_ticks()//1000
-        if(percentCompleted == 100 and lasttime):
-            percent.font = pygame.font.Font('freesansbold.ttf', screenSize[0]//18)
-            percent.reWrite(f'YOU WON AFTER {time} SECONDS!')
-            lasttime = False
-            
-        elif(lasttime):
-            percent.reWrite((str(percentCompleted)+'% correct'))
             
         for event in events:
             if event.type == pygame.KEYDOWN:
@@ -289,6 +284,28 @@ def main():
                 print(f"Error blitting image onto shape {shape.id}: {e}")
         #checkSquareConnected()
         percent.draw()
+        if(percentCompleted == 100 and lasttime):
+            percent.font = pygame.font.Font('freesansbold.ttf', screenSize[0]//18)
+            percent.reWrite(f'YOU WON AFTER {time} SECONDS!')
+            with open(cwd + "\\dat\\currentPerson.pkl", 'rb') as f:
+                x = pickle.load(f)
+            score = (1+ 1.05 **(-time+50))
+            x['points'] = x['points'] + round(score*160)
+            print(x['points'])
+            
+            with open(cwd + "\\dat\\currentPerson.pkl", "wb") as f:
+                f.truncate(0)
+                pickle.dump(x, f)
+            with open(cwd + "\\dat\\currentPerson.pkl", 'rb') as f:
+                x = pickle.load(f)
+            print(x)
+            
+            lasttime = False
+            t.sleep(5)
+            RUNNING = False
+            
+        elif(lasttime):
+            percent.reWrite((str(percentCompleted)+'% correct, '+ str(time) + ' secs'))
         pygame.display.update()
 
         '''for shape in shapes:

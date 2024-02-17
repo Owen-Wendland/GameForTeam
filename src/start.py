@@ -1,7 +1,9 @@
 import os
+import subprocess
 import pygame
 import pygame_gui
 import sys
+import pickle 
 from pygame_gui.core import ObjectID
 
 pygame.init()
@@ -26,7 +28,7 @@ pygame.display.set_caption("Text Input in PyGame")
 
 font = pygame.font.Font(None, WIDTH//16)
 
-manager = pygame_gui.UIManager((constants.screenSize[0], constants.screenSize[1]),cwd + '\\dat\\theme.json')
+manager = pygame_gui.UIManager((constants.screenSize[0], constants.screenSize[1]))
 
 #creates the textbox, top left is at the first width/height pairing
 #then the second width/height pairing is how many pixels it expands from the original point
@@ -34,13 +36,7 @@ text_input = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((WIDT
     manager=manager, object_id=('#main_text_entry'))
 
 text_input2 = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((WIDTH*(211/480), HEIGHT*(37/54)), (WIDTH*(35/192), HEIGHT*(23/125))),
-    manager=manager, object_id=ObjectID(class_id='@text_entry_line',
-                                           object_id='#hello_button'))
-
-#text_surface = font.render("Team Number: ", True, BLACK)
-#SCREEN.blit(text_surface, (WIDTH//16, HEIGHT//16*1))
-#text_surface2 = font.render("Initials: " , True, BLACK)
-#SCREEN.blit(text_surface, (WIDTH//16, HEIGHT//16*2))
+    manager=manager, object_id=ObjectID('#main_text_entry2'))
 
 clock = pygame.time.Clock()
 
@@ -48,34 +44,65 @@ class variables():
     def __init__(self, team, initial):
         self.team = team    
         self.initial = initial
+        self.activated = False
+        self.first = True
 
 var = variables('','')
 
 def show_user_name():
     if(var.team != '' and var.initial != ''):
-        while True:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
                     pygame.quit()
-                    sys.exit()
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_ESCAPE:
-                        pygame.quit()
 
-            SCREEN.fill(BURGANDY)
+        SCREEN.fill(BURGANDY)
 
-            userNameText = pygame.font.SysFont("bahnschrift", 100).render(f"Team name is: {var.team}", True, "white")
-            userNameRect = userNameText.get_rect(center=(WIDTH/2, HEIGHT/2))
-            SCREEN.blit(userNameText, userNameRect)
+        userNameText = pygame.font.SysFont("bahnschrift", 100).render(f"Team name is: {var.team}", True, "white")
+        userNameRect = userNameText.get_rect(center=(WIDTH/2, HEIGHT/2))
+        SCREEN.blit(userNameText, userNameRect)
 
-            passWordText = pygame.font.SysFont("bahnschrift", 100).render(f"Your initials are: {var.initial}", True, "white")
-            passWordRect = passWordText.get_rect(center=(WIDTH/2, HEIGHT/8*6))
-            SCREEN.blit(passWordText, passWordRect)
+        passWordText = pygame.font.SysFont("bahnschrift", 100).render(f"Your initials are: {var.initial}", True, "white")
+        passWordRect = passWordText.get_rect(center=(WIDTH/2, HEIGHT/8*6))
+        SCREEN.blit(passWordText, passWordRect)
+        
+        if(var.first):
+            var.first = False
+            person = {
+                "initial": var.initial,
+                "team": var.team,
+                "points": 0
+            }
+            with open(cwd + "\\dat\\currentPerson.pkl", "wb") as f:
+                f.truncate(0)
+                pickle.dump(person, f)
+              
+            '''  TESTING FOR FILE READING DICTIONARY
+            with open(cwd + "\\dat\\currentPerson.pkl", 'rb') as f:
+                x = pickle.load(f)
+            x['points'] = 1000
+            print(x['points'])
             
-            
-            clock.tick(60)
+            with open(cwd + "\\dat\\currentPerson.pkl", "wb") as f:
+                f.truncate(0)
+                pickle.dump(x, f)
+                
+            with open(cwd + "\\dat\\currentPerson.pkl", 'rb') as f:
+                x = pickle.load(f)
+            print(x['points'])
+            '''
+                
+        clock.tick(60)
 
-            pygame.display.update()
+        pygame.display.update()
+        subprocess.run(["python", cwd + "\\src\\menu.py"])
+        pygame.quit()
+        sys.exit
+    else:
+        var.activated = False
 
 
 def get_user_name():
@@ -90,30 +117,38 @@ def get_user_name():
                     pygame.quit()
             elif (event.type == pygame_gui.UI_TEXT_ENTRY_CHANGED and
                 event.ui_object_id == '#main_text_entry'):
-                var.team = event.text
+                if(len(event.text) <= 4):
+                    var.team = event.text
+                else:
+                    var.team = ''
                 
             elif (event.type == pygame_gui.UI_TEXT_ENTRY_CHANGED and
                 event.ui_object_id == '#main_text_entry2'):
-                var.initial = event.text
+                if(len(event.text) <= 3):
+                    var.initial = event.text
+                else:
+                    var.initial = ''
                 
             elif(event.type == pygame.MOUSEBUTTONDOWN):
                 x = pygame.mouse.get_pos()[0]
                 y = pygame.mouse.get_pos()[1]
                 if(int(HEIGHT * (2/3)) < y and y < int(HEIGHT * (7/8))):
                     if(int(WIDTH* (87/128)) < x and x < int(WIDTH * (181/192))):
-                        show_user_name()
+                        var.activated = True
             
             manager.process_events(event)
         
         manager.update(UI_REFRESH_RATE)
-                
-        SCREEN.fill("maroon")
-        SCREEN.blit(image, (0, 0))
-        #SCREEN.blit(text_surface, (WIDTH/8, HEIGHT//16*3))
-        #SCREEN.blit(text_surface2, (WIDTH/8, HEIGHT//16*7))
-        manager.draw_ui(SCREEN)
+        if(not(var.activated)):
+            SCREEN.fill("maroon")
+            SCREEN.blit(image, (0, 0))
+            #SCREEN.blit(text_surface, (WIDTH/8, HEIGHT//16*3))
+            #SCREEN.blit(text_surface2, (WIDTH/8, HEIGHT//16*7))
+            manager.draw_ui(SCREEN)
 
-        pygame.display.update()
+            pygame.display.update()
+        else:
+            show_user_name()
     
 
 get_user_name()

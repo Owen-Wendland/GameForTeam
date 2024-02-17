@@ -1,4 +1,5 @@
 import math
+import pickle
 import pygame
 import pymunk
 import json
@@ -61,6 +62,7 @@ def main():
    
     class Player():
         def __init__(self, startx, starty, width, height):
+            self.qnum = 1
             self.dir = 'right'
             self.width = width
             self.height = height
@@ -146,7 +148,7 @@ def main():
             self.font = pygame.font.Font(textFont, size)
             self.textWritten = textWritten
             self.text = self.font.render(self.textWritten, True, (0,0,0))
-            self.currAnswer = js['answer' + str(qNum)]
+            self.currAnswer = js['answer' + str(1)]
            
             self.location = self.text.get_rect(center = (self.x, self.y))
            
@@ -158,8 +160,8 @@ def main():
         def draw(self):
             screen.blit(self.text, self.location)
            
-    currQuestion = js['question' + str(qNum)]
-    currAnswers = list(js['answers' + str(qNum)]) #setting the list of answers from the json file
+    currQuestion = js['question' + str(1)]
+    currAnswers = list(js['answers' + str(1)]) #setting the list of answers from the json file
    
     random.shuffle(currAnswers) #shuffles the position of the answers
    
@@ -201,12 +203,12 @@ def main():
         pygame.draw.rect(screen, (0,255,0), pygame.Rect(screenSize[0]*3/4,6 * (screenSize[1] / 9),screenSize[0]/4,screenSize[1]/3))
    
     def reset():
-        global qNum, currQuestion
-        qNum += 1
-        if qNum <= qAmount:
-            currAnswers = js['answers' + str(qNum)]
+        global currQuestion
+        player.qnum += 1
+        if player.qnum <= qAmount:
+            currAnswers = js['answers' + str(player.qnum)]
             random.shuffle(currAnswers)
-            currQuestion = js['question' + str(qNum)]
+            currQuestion = js['question' + str(player.qnum)]
             
             player.ball_body.angle = 0
             player.ball_body.velocity = pymunk.Vec2d(0,0)
@@ -217,7 +219,7 @@ def main():
             text3.reWrite(currAnswers[2])
             text4.reWrite(currAnswers[3])
             question.reWrite(currQuestion)
-            question.currAnswer = js['answer' + str(qNum)]
+            question.currAnswer = js['answer' + str(player.qnum)]
            
         #return(qNum + 1)
         #display question (code should go here)
@@ -225,6 +227,46 @@ def main():
     rotate = False
     num = 0
     while RUNNING:
+        timeSecond = pygame.time.get_ticks()//1000
+        if player.qnum == qAmount + 1:
+            screen.fill(BACKGROUND) # creating the sky like god did on the second day
+            background()
+            
+            #creating the player, edges around screen, aswell as the question and answers
+            player.draw()
+            floor.draw()
+            wall1.draw()
+            wall2.draw()
+            roof.draw()
+            text1.draw()
+            text2.draw()
+            text3.draw()
+            text4.draw()
+            question.draw()
+            
+            #draw/create the line structure for the player to move on
+            for i in range(len(linelist)):
+                linelist[i].draw()
+                
+            events = pygame.event.get()
+            txtx1 = 'score : '
+            txtx2 = str(round(numcorrect * 250 // timeSecond))
+            question.reWrite(txtx1 + txtx2)
+            pygame.display.update()
+            world.step(1/60.0)
+            clock.tick(60)
+            with open(cwd + "\\dat\\currentPerson.pkl", 'rb') as f:
+                x = pickle.load(f)
+            x['points'] = x['points'] + round(numcorrect * timeSecond)
+            print(x['points'])
+            
+            with open(cwd + "\\dat\\currentPerson.pkl", "wb") as f:
+                f.truncate(0)
+                pickle.dump(x, f)
+            with open(cwd + "\\dat\\currentPerson.pkl", 'rb') as f:
+                x = pickle.load(f)
+            print(x)
+            RUNNING = False
         screen.fill(BACKGROUND) # creating the sky like god did on the second day
         background()
        
@@ -270,25 +312,25 @@ def main():
         if chosen == question.currAnswer and first: # if the chosen answer is correct then print that they are correct
             numcorrect += 1
             firstTime = time.time()
-            question.reWrite("Correct! you have " + str(numcorrect) + " correct")
+            question.reWrite("Correct! you have " + str(numcorrect) + " correct --Seconds:" + str(timeSecond) + '--')
             first = False
             chosen = '1'
            
         elif(not(first) and time.time() - firstTime > timeTakeForNewQuestion):
            # numcorrect += 1
-            question.reWrite("Correct! you have " + str(numcorrect) + " correct")
+            question.reWrite("Correct! you have " + str(numcorrect) + " correct --Seconds:" + str(timeSecond) + '--')
             first = True
             reset()
             chosen = ''
        
         if chosen != question.currAnswer and first and chosen != '': # if the chosen answer is correct then print that they are correct
             firstTime = time.time()
-            question.reWrite("Wrong! you have " + str(numcorrect) + " correct")
+            question.reWrite("Wrong! you have " + str(numcorrect) + " correct --Seconds:" + str(timeSecond) + '--')
             first = False
             chosen = '1'
            
         elif(not(first) and time.time() - firstTime > timeTakeForNewQuestion and chosen != question.currAnswer):
-            question.reWrite("Wrong! you have " + str(numcorrect) + " correct")
+            question.reWrite("Wrong! you have " + str(numcorrect) + " correct --Seconds:" + str(timeSecond) + '--')
             first = True
             reset()
             chosen = ''
@@ -381,6 +423,8 @@ def main():
        
         world.step(1/60.0)
         clock.tick(60)
+    time.sleep(5)
+    
 
 if __name__ == "__main__":
     main()

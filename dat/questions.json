@@ -1,5 +1,5 @@
 {  
-    "questionAmount":7,
+    "questionAmount":3,
     
     "question1":"Whats our team number?",
     "answers1":[  
@@ -10,7 +10,7 @@
     ],
     "answer1":"5458",
 
-    "question2":"Whats language is our robot programmed in?",
+    "question2":"What language does our robot use?",
     "answers2":[  
         "java",
         "python",
@@ -26,42 +26,5 @@
         "Cortex",
         "Spinbot"
     ],
-    "answer3":"Spinbot",
-
-    "question4":"What drive is our robot?",
-    "answers4":[  
-        "Tank",
-        "Swerve",
-        "Spin",
-        "Field drive?"
-    ],
-    "answer4":"Swerve",
-
-    "question5":"What is our team color?",
-    "answers5":[  
-        "Maroon",
-        "Blue",
-        "Burgandy",
-        "Crimson"
-    ],
-    "answer5":"Burgandy",
-
-    "question6":"What motor controllers are we using",
-    "answers6":[  
-        "Srx's",
-        "Falcons",
-        "Swerve",
-        "SparkMax & Falcon"
-    ],
-    "answer6":"SparkMax & Falcon",
-
-    "question7":"What year did we go to nationals",
-    "answers7":[  
-        "2023",
-        "2022",
-        "2021",
-        "the last three years"
-    ],
-    "answer7":"2022"
-
+    "answer3":"Spinbot"
 }
