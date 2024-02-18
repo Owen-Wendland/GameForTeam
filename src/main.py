@@ -1,5 +1,6 @@
 import math
 import pickle
+import subprocess
 import pygame
 import pymunk
 import json
@@ -250,7 +251,7 @@ def main():
                 
             events = pygame.event.get()
             txtx1 = 'score : '
-            txtx2 = str(round(numcorrect * 250 // timeSecond))
+            txtx2 = str(round(numcorrect * 450 // timeSecond))
             question.reWrite(txtx1 + txtx2)
             pygame.display.update()
             world.step(1/60.0)
@@ -428,5 +429,5 @@ def main():
 
 if __name__ == "__main__":
     main()
-
+subprocess.run(["python", cwd + "\\src\\sort10.py"])
 pygame.quit()

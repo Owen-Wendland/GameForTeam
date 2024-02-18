@@ -9,6 +9,8 @@ print(cwd + '\\dat')
 sys.path.append(cwd + '\\dat')
 
 with open(cwd + "\\dat\\currentPerson.pkl", 'rb') as f:
-    f.truncate(0)
+    x = pickle.load(f)
+print(x)
+with open(cwd + "\\dat\\topTen.pkl", 'rb') as f:
     x = pickle.load(f)
 print(x)

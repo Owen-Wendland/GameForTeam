@@ -1,4 +1,5 @@
 import math
+import subprocess
 import pygame
 import pymunk
 import random
@@ -290,7 +291,7 @@ def main():
             with open(cwd + "\\dat\\currentPerson.pkl", 'rb') as f:
                 x = pickle.load(f)
             score = (1+ 1.05 **(-time+50))
-            x['points'] = x['points'] + round(score*160)
+            x['points'] = x['points'] + round(score*260)
             print(x['points'])
             
             with open(cwd + "\\dat\\currentPerson.pkl", "wb") as f:
@@ -301,7 +302,7 @@ def main():
             print(x)
             
             lasttime = False
-            t.sleep(5)
+            t.sleep(2)
             RUNNING = False
             
         elif(lasttime):
@@ -331,7 +332,7 @@ def main():
         world.step(1 / 120.0)
         clock.tick(120)
 
-
+    subprocess.run(["python", cwd + "\\src\\sort10.py"])
     pygame.quit()
 
 
