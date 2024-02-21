@@ -32,8 +32,8 @@ background_image = ImageTk.PhotoImage(master=root,image=background_image)
 
 
 # Create a label to display the background image
-background_label = Label(root, image=background_image)
-background_label.place(relwidth=1, relheight=1)
+backgroundlabel = Label(root, image=background_image)
+backgroundlabel.place(relwidth=1, relheight=1)
 
 iList = []
 tList = []
@@ -105,9 +105,9 @@ def switchLeaderboard():
 
         background_image = ImageTk.PhotoImage(master=root,image=background_image)
 
-        background_label.configure(image=background_image)
-        background_label.image = background_image
-        background_label.update()
+        backgroundlabel.configure(image=background_image)
+        backgroundlabel.image = background_image
+        backgroundlabel.update()
         for i in range(len(tList)):
             if(i < 5):
                 tList[i].place(x=screen_width * 1//6,y=screen_height//8.08181818182*(i+3) - 30)
@@ -128,19 +128,21 @@ def switchLeaderboard():
 
             background_image = ImageTk.PhotoImage(master=root,image=background_image)
 
-            background_label.configure(image=background_image)
-            background_label.image = background_image
+            backgroundlabel.configure(image=background_image)
+            backgroundlabel.image = background_image
         elif(Variables.activated[0] == 1):
-            background_image = Image.open(cwd + "\\images\\menu9.png")
+            Variables.background_label = 1
+            backgroundimage = Image.open(cwd + "\\images\\menu9.png")
 
             # Resize the image using resize() method
             background_image = background_image.resize((screen_width, screen_height))
 
             background_image = ImageTk.PhotoImage(master=root,image=background_image)
 
-            background_label.configure(image=background_image)
-            background_label.image = background_image
+            backgroundlabel.configure(image=background_image)
+            backgroundlabel.image = background_image
         elif(Variables.activated[1] == 1):
+            Variables.background_label = 1
             background_image = Image.open(cwd + "\\images\\menu8.png")
 
             # Resize the image using resize() method
@@ -148,9 +150,9 @@ def switchLeaderboard():
 
             background_image = ImageTk.PhotoImage(master=root,image=background_image)
 
-            background_label.configure(image=background_image)
-            background_label.image = background_image
-            background_label.update()
+            backgroundlabel.configure(image=background_image)
+            backgroundlabel.image = background_image
+            backgroundlabel.update()
         else:
             background_image = Image.open(cwd + "\\images\\menu2.png")
 
@@ -159,30 +161,13 @@ def switchLeaderboard():
 
             background_image = ImageTk.PhotoImage(master=root,image=background_image)
 
-            background_label.configure(image=background_image)
-            background_label.image = background_image
-            background_label.update()
+            backgroundlabel.configure(image=background_image)
+            backgroundlabel.image = background_image
+            backgroundlabel.update()
         for i in range(len(tList)):
             tList[i].place_forget()
             pList[i].place_forget()
             iList[i].place_forget()
-    
-def backToLeaderboard():
-    Variables.background_label = 1
-    # Read the Image
-    background_image = Image.open(cwd + "\\images\\menu2.png")
-
-    # Resize the image using resize() method
-    background_image = background_image.resize((screen_width, screen_height))
-
-    background_image = ImageTk.PhotoImage(master=root,image=background_image)
-
-    background_label.configure(image=background_image)
-    background_label.image = background_image
-    for i in range(len(tList)):
-        tList[i].place_forget()
-        pList[i].place_forget()
-        iList[i].place_forget()
     
 def runButton(event):
     try:
@@ -208,6 +193,37 @@ def runButton(event):
     x = event.x
     y = event.y
     #menu page 1
+    if(Variables.activated[0] == 1 and Variables.activated[1] == 1):
+        background_image = Image.open(cwd + "\\images\\menu7.png")
+
+        # Resize the image using resize() method
+        background_image = background_image.resize((screen_width, screen_height))
+
+        background_image = ImageTk.PhotoImage(master=root,image=background_image)
+
+        backgroundlabel.configure(image=background_image)
+        backgroundlabel.image = background_image
+    elif(Variables.activated[0] == 1):
+        background_image = Image.open(cwd + "\\images\\menu9.png")
+
+        # Resize the image using resize() method
+        background_image = background_image.resize((screen_width, screen_height))
+
+        background_image = ImageTk.PhotoImage(master=root,image=background_image)
+
+        backgroundlabel.configure(image=background_image)
+        backgroundlabel.image = background_image
+    elif(Variables.activated[1] == 1):
+        background_image = Image.open(cwd + "\\images\\menu8.png")
+
+        # Resize the image using resize() method
+        background_image = background_image.resize((screen_width, screen_height))
+
+        background_image = ImageTk.PhotoImage(master=root,image=background_image)
+
+        backgroundlabel.configure(image=background_image)
+        backgroundlabel.image = background_image
+        backgroundlabel.update()
     if(Variables.background_label == 1):
         if(int(screen_height * (13/36)) < y and y < int(screen_height * (41/72))):
             if(int(screen_width* (9/160)) < x and x < int(screen_width * (15/32)) and Variables.activated[0] == 0):
@@ -230,37 +246,6 @@ def runButton(event):
             if(int(screen_width* (25/32)) < x and x < int(screen_width * (15/16))):
                 switchLeaderboard()
 
-    if(Variables.activated[0] == 1 and Variables.activated[1] == 1):
-        background_image = Image.open(cwd + "\\images\\menu7.png")
-
-        # Resize the image using resize() method
-        background_image = background_image.resize((screen_width, screen_height))
-
-        background_image = ImageTk.PhotoImage(master=root,image=background_image)
-
-        background_label.configure(image=background_image)
-        background_label.image = background_image
-    elif(Variables.activated[0] == 1):
-        background_image = Image.open(cwd + "\\images\\menu9.png")
-
-        # Resize the image using resize() method
-        background_image = background_image.resize((screen_width, screen_height))
-
-        background_image = ImageTk.PhotoImage(master=root,image=background_image)
-
-        background_label.configure(image=background_image)
-        background_label.image = background_image
-    elif(Variables.activated[1] == 1):
-        background_image = Image.open(cwd + "\\images\\menu8.png")
-
-        # Resize the image using resize() method
-        background_image = background_image.resize((screen_width, screen_height))
-
-        background_image = ImageTk.PhotoImage(master=root,image=background_image)
-
-        background_label.configure(image=background_image)
-        background_label.image = background_image
-        background_label.update()
 
 # Set the size of the menu window to the size of the screen
 root.geometry(f"{screen_width}x{screen_height}")

@@ -340,15 +340,15 @@ def main():
             if event.type == pygame.KEYDOWN: # if there is a key pressed down then check for which key(s) is pressed down
                 if event.key == pygame.K_ESCAPE: #if you press the escape key the game game closes
                     RUNNING = False
-                if event.key == pygame.K_LEFT: #if you press left arrow then you go.... left
+                if (event.key == pygame.K_LEFT) or (event.key == pygame.K_a): #if you press left arrow then you go.... left
                     left = True
                     walking.play(loops=-1)
-                if event.key == pygame.K_RIGHT: #if you press right arrow then you go..... right
+                if (event.key == pygame.K_RIGHT) or (event.key == pygame.K_d): #if you press right arrow then you go..... right
                     right = True
                     walking.play(loops=-1)
-                if event.key == pygame.K_UP: #if you press uparrow it sets up boolean  to true
+                if (event.key == pygame.K_UP) or (event.key == pygame.K_w): #if you press uparrow it sets up boolean  to true
                     up = True
-                if event.key == pygame.K_DOWN:
+                if (event.key == pygame.K_DOWN) or (event.key == pygame.K_s):
                     down = True
                     if(player.angle_degrees > 89 or player.angle_degrees < -89):
                         rotate = True
@@ -356,15 +356,15 @@ def main():
                 if event.key == pygame.K_LSHIFT:
                     vel = 200
             if event.type == pygame.KEYUP: #if there is a key up then see which key(s) are up and respond
-                if event.key == pygame.K_LEFT:
+                if (event.key == pygame.K_LEFT) or (event.key == pygame.K_a):
                     left = False
                     walking.stop()
-                if event.key == pygame.K_RIGHT:
+                if (event.key == pygame.K_RIGHT) or (event.key == pygame.K_d):
                     right = False
                     walking.stop()
-                if event.key == pygame.K_DOWN:
+                if (event.key == pygame.K_DOWN) or (event.key == pygame.K_s):
                     down = False
-                if event.key == pygame.K_UP:
+                if (event.key == pygame.K_UP) or (event.key == pygame.K_w):
                     up = False
                     first1 = player.ball_body.velocity
                     first1 = list(first1)

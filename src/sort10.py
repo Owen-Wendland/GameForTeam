@@ -7,7 +7,8 @@ cwd = str(cwd)
 cwd = cwd.replace('src','')
 sys.path.append(cwd + '\\dat')
 
-#sets all to blank 
+#sets all to blank
+'''
 b = {
                 "initial1": 'blank1',
                 "team1": 'blank',
@@ -42,7 +43,7 @@ b = {
             }
 
 with open(cwd + "\\dat\\topTen.pkl", "wb") as f:
-    pickle.dump(b, f)
+    pickle.dump(b, f)'''
 
 with open(cwd + "\\dat\\currentPerson.pkl", 'rb') as f:
     x = pickle.load(f)
