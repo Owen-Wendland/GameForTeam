@@ -1,5 +1,6 @@
 import os
 import subprocess
+import time
 import pygame
 import pygame_gui
 import sys
@@ -61,16 +62,19 @@ def show_user_name():
 
         SCREEN.fill(BURGANDY)
 
-        userNameText = pygame.font.SysFont("bahnschrift", 100).render(f"Team name is: {var.team}", True, "white")
+        userNameText = pygame.font.SysFont("bahnschrift", WIDTH//20).render(f"Controls for quiz are arrow keys and wasd", True, "white")
         userNameRect = userNameText.get_rect(center=(WIDTH/2, HEIGHT/2))
         SCREEN.blit(userNameText, userNameRect)
 
-        passWordText = pygame.font.SysFont("bahnschrift", 100).render(f"Your initials are: {var.initial}", True, "white")
+        passWordText = pygame.font.SysFont("bahnschrift", WIDTH//20).render(f"Jigsaw controls are click and drag \n(drag the first square)", True, "white")
         passWordRect = passWordText.get_rect(center=(WIDTH/2, HEIGHT/8*6))
         SCREEN.blit(passWordText, passWordRect)
         
+        leaveText = pygame.font.SysFont("bahnschrift", WIDTH//15).render(f"Click to leave!", True, "white")
+        leaveRect = passWordText.get_rect(center=(WIDTH/16*11, HEIGHT/8))
+        SCREEN.blit(leaveText, leaveRect)
+        
         if(var.first):
-            var.first = False
             person = {
                 "initial": var.initial,
                 "team": var.team,
@@ -79,6 +83,13 @@ def show_user_name():
             with open(cwd + "\\dat\\currentPerson.pkl", "wb") as f:
                 f.truncate(0)
                 pickle.dump(person, f)
+            while(var.first):
+                events = pygame.event.get()
+                for event in events:
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        var.first = False
+                clock.tick(60)
+                pygame.display.update()
               
             '''  TESTING FOR FILE READING DICTIONARY
             with open(cwd + "\\dat\\currentPerson.pkl", 'rb') as f:
@@ -96,7 +107,6 @@ def show_user_name():
             '''
                 
         clock.tick(60)
-
         pygame.display.update()
         subprocess.run(["python", cwd + "\\src\\menu.py"])
         pygame.quit()

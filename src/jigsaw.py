@@ -118,7 +118,7 @@ def main():
         def draw(self):
             screen.blit(self.text, self.location)
             
-    percent = text('freesansbold.ttf', '0', screenSize[0]/2, screenSize[1]/9, screenSize[0]//10)
+    percent = text('freesansbold.ttf', '0', screenSize[0]/2, screenSize[1]/9, screenSize[0]//16)
             
     '''def draw_grid(surface, grid_size, color=(100, 100, 100)):
         for x in range(0, screenSize[0], grid_size):

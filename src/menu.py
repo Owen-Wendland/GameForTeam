@@ -48,7 +48,7 @@ Variables = variables()
 
 def choose_jigsaw_image():
     # Path to the images folder
-    images_folder = cwd + "\\images"
+    images_folder = cwd + "\\jiggers"
 
     # Get a list of all image files in the folder
     image_files = [f for f in os.listdir(images_folder) if f.lower().endswith((".png", ".jpg", ".jpeg"))]
@@ -72,6 +72,7 @@ def choose_jigsaw_image():
     def on_select():
         # Get the selected image file
         selected_index = listbox.curselection()
+        Variables.activated[1] = 1
         if selected_index:
             selected_image = image_files[selected_index[0]]
 
@@ -119,16 +120,48 @@ def switchLeaderboard():
         
     elif(Variables.background_label == 2):
         Variables.background_label = 1
-        # Read the Image
-        background_image = Image.open(cwd + "\\images\\menu2.png")
+        if(Variables.activated[0] == 1 and Variables.activated[1] == 1):
+            background_image = Image.open(cwd + "\\images\\menu7.png")
 
-        # Resize the image using resize() method
-        background_image = background_image.resize((screen_width, screen_height))
+            # Resize the image using resize() method
+            background_image = background_image.resize((screen_width, screen_height))
 
-        background_image = ImageTk.PhotoImage(master=root,image=background_image)
+            background_image = ImageTk.PhotoImage(master=root,image=background_image)
 
-        background_label.configure(image=background_image)
-        background_label.image = background_image
+            background_label.configure(image=background_image)
+            background_label.image = background_image
+        elif(Variables.activated[0] == 1):
+            background_image = Image.open(cwd + "\\images\\menu9.png")
+
+            # Resize the image using resize() method
+            background_image = background_image.resize((screen_width, screen_height))
+
+            background_image = ImageTk.PhotoImage(master=root,image=background_image)
+
+            background_label.configure(image=background_image)
+            background_label.image = background_image
+        elif(Variables.activated[1] == 1):
+            background_image = Image.open(cwd + "\\images\\menu8.png")
+
+            # Resize the image using resize() method
+            background_image = background_image.resize((screen_width, screen_height))
+
+            background_image = ImageTk.PhotoImage(master=root,image=background_image)
+
+            background_label.configure(image=background_image)
+            background_label.image = background_image
+            background_label.update()
+        else:
+            background_image = Image.open(cwd + "\\images\\menu2.png")
+
+            # Resize the image using resize() method
+            background_image = background_image.resize((screen_width, screen_height))
+
+            background_image = ImageTk.PhotoImage(master=root,image=background_image)
+
+            background_label.configure(image=background_image)
+            background_label.image = background_image
+            background_label.update()
         for i in range(len(tList)):
             tList[i].place_forget()
             pList[i].place_forget()
@@ -169,9 +202,9 @@ def runButton(event):
             iz = ('initial' + str(i))
             pz = ('points' + str(i))
             tz = ('team' + str(i))
-            iList.append(Label(root, text=(z[iz]), font=("Arial", 20), background='#b80020'))
-            tList.append(Label(root, text=(z[tz]), font=("Arial", 20), background='#b80020'))
-            pList.append(Label(root, text=(z[pz]), font=("Arial", 20), background='#b80020'))
+            iList.append(Label(root, text=(z[iz]), font=("Arial", 20), background='#b80020', foreground=('#FFFFFF')))
+            tList.append(Label(root, text=(z[tz]), font=("Arial", 20), background='#b80020', foreground=('#FFFFFF')))
+            pList.append(Label(root, text=(z[pz]), font=("Arial", 20), background='#b80020', foreground=('#FFFFFF')))
     x = event.x
     y = event.y
     #menu page 1
@@ -182,7 +215,6 @@ def runButton(event):
                 run_quiz()
 
             if(int(screen_width* (33/64)) < x and x < int(screen_width * (89/96)) and Variables.activated[1] == 0):
-                Variables.activated[1] = 1
                 choose_jigsaw_image()
 
         elif(int(screen_height * (2/3)) < y and y < int(screen_height * (7/8))):
@@ -196,8 +228,7 @@ def runButton(event):
     elif(Variables.background_label == 2):
         if(int(screen_height * (13/72)) < y and y < int(screen_height * (5/18))):
             if(int(screen_width* (25/32)) < x and x < int(screen_width * (15/16))):
-                print('backs')
-                backToLeaderboard()
+                switchLeaderboard()
 
     if(Variables.activated[0] == 1 and Variables.activated[1] == 1):
         background_image = Image.open(cwd + "\\images\\menu7.png")
