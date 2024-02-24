@@ -196,7 +196,7 @@ def main():
     print(os.listdir(cwd + "\\images"))
     image = pygame.image.load(cwd + "\\images\\large.png")
     image = pygame.transform.scale(image,(grid_size * 12, grid_size * 5))
-    image2 = pygame.image.load(cwd + "\\images\\gradient.jpg")
+    image2 = pygame.image.load(cwd + "\\images\\gradient2.jpg")
     image2 = pygame.transform.scale(image2,(grid_size * 12, grid_size * 5))
     bimage = pygame.image.load(cwd + "\\images\\background2.png")
     bimage = pygame.transform.scale(bimage,(grid_size * 16, grid_size * 9))

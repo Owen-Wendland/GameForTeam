@@ -1,11 +1,12 @@
 import os
 import subprocess
-import time
 import pygame
 import pygame_gui
 import sys
 import pickle 
 from pygame_gui.core import ObjectID
+from tkinter import *
+
 
 pygame.init()
 
@@ -16,11 +17,21 @@ print(cwd + '\\dat')
 sys.path.append(cwd + '\\dat')
 import constants
 
+#root = Tk()
+#root.title("start")
 WHITE = (255, 255, 255)
 BURGANDY = (184, 0, 32)
 BLACK = (0, 0, 0)
 WIDTH, HEIGHT = constants.screenSize[0], constants.screenSize[1]
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
+
+# Read the Image
+#background_image = Image.open(cwd + "\\images\\menu1.png")
+
+# Resize the image using resize() method
+#background_image = background_image.resize((WIDTH, HEIGHT))
+
+#background_image = ImageTk.PhotoImage(master=root,image=background_image)
 
 image = pygame.image.load(cwd + "\\images\\menu1.png")
 image = pygame.transform.scale(image,(WIDTH, HEIGHT))
@@ -61,18 +72,9 @@ def show_user_name():
                     pygame.quit()
 
         SCREEN.fill(BURGANDY)
-
-        userNameText = pygame.font.SysFont("bahnschrift", WIDTH//20).render(f"Controls for quiz are arrow keys and wasd", True, "white")
-        userNameRect = userNameText.get_rect(center=(WIDTH/2, HEIGHT/2))
-        SCREEN.blit(userNameText, userNameRect)
-
-        passWordText = pygame.font.SysFont("bahnschrift", WIDTH//20).render(f"Jigsaw controls are click and drag \n(drag the first square)", True, "white")
-        passWordRect = passWordText.get_rect(center=(WIDTH/2, HEIGHT/8*6))
-        SCREEN.blit(passWordText, passWordRect)
-        
-        leaveText = pygame.font.SysFont("bahnschrift", WIDTH//15).render(f"Click to leave!", True, "white")
-        leaveRect = passWordText.get_rect(center=(WIDTH/16*11, HEIGHT/8))
-        SCREEN.blit(leaveText, leaveRect)
+        image = pygame.image.load(cwd + "\\images\\menu10.png")
+        image = pygame.transform.scale(image,(WIDTH, HEIGHT))
+        SCREEN.blit(image, (0, 0))
         
         if(var.first):
             person = {

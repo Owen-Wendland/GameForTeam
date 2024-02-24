@@ -168,11 +168,11 @@ def main():
    
     #displaying the question answers on the colored zones
    
-    text1 = text('freesansbold.ttf', currAnswers[0], screenSize[0]/8, screenSize[1]/1.222222, 32)
-    text2 = text('freesansbold.ttf', currAnswers[1], screenSize[0]*3/8, screenSize[1]/1.222222, 32)
-    text3 = text('freesansbold.ttf', currAnswers[2], screenSize[0]*5/8, screenSize[1]/1.222222, 32)
-    text4 = text('freesansbold.ttf', currAnswers[3], screenSize[0]*7/8, screenSize[1]/1.222222, 32)
-    question = text('freesansbold.ttf', currQuestion, screenSize[0]/2, screenSize[1]/8, 64)
+    text1 = text('freesansbold.ttf', currAnswers[0], screenSize[0]/8, screenSize[1]/1.222222, screenSize[0]//34)
+    text2 = text('freesansbold.ttf', currAnswers[1], screenSize[0]*3/8, screenSize[1]/1.222222, screenSize[0]//34)
+    text3 = text('freesansbold.ttf', currAnswers[2], screenSize[0]*5/8, screenSize[1]/1.222222, screenSize[0]//34)
+    text4 = text('freesansbold.ttf', currAnswers[3], screenSize[0]*7/8, screenSize[1]/1.222222, screenSize[0]//34)
+    question = text('freesansbold.ttf', currQuestion, screenSize[0]/2, screenSize[1]/8, screenSize[0]//32)
    
     #make the player (starting x, starting, size, mass)
     #player = Player(screenSize[0]/2, screenSize[1]/4, abs((screenSize[0] - screenSize[1])/9), 1)

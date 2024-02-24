@@ -48,7 +48,7 @@ Variables = variables()
 
 def choose_jigsaw_image():
     # Path to the images folder
-    images_folder = cwd + "\\jiggers"
+    images_folder = cwd + "\\jigmg"
 
     # Get a list of all image files in the folder
     image_files = [f for f in os.listdir(images_folder) if f.lower().endswith((".png", ".jpg", ".jpeg"))]
@@ -94,6 +94,7 @@ def run_quiz():
 def exit_program():
     root.destroy()
 
+#leaderboard
 def switchLeaderboard():
     if(Variables.background_label == 1):
         Variables.background_label = 2
@@ -245,12 +246,53 @@ def runButton(event):
         if(int(screen_height * (13/72)) < y and y < int(screen_height * (5/18))):
             if(int(screen_width* (25/32)) < x and x < int(screen_width * (15/16))):
                 switchLeaderboard()
+def resetLeader(event):
+    cwd = os.getcwd()
+    cwd = str(cwd)
+    cwd = cwd.replace('src','')
+    sys.path.append(cwd + '\\dat')
 
+    #sets all to blank
+    b = {
+    "initial1": 'blank1',
+    "team1": 'blank',
+    "points1": 10,
+    "initial2": 'blank2',
+    "team2": 'blank',
+    "points2": 9,
+    "initial3": 'blank3',
+    "team3": 'blank',
+    "points3": 8,
+    "initial4": 'blank4',
+    "team4": 'blank',
+    "points4": 7,
+    "initial5": 'blank5',
+    "team5": 'blank',
+    "points5": 6,
+    "initial6": 'blank6',
+    "team6": 'blank',
+    "points6": 5,
+    "initial7": 'blank7',
+    "team7": 'blank',
+    "points7": 4,
+    "initial8": 'blank8',
+    "team8": 'blank',
+    "points8": 3,
+    "initial9": 'blank9',
+    "team9": 'blank',
+    "points9": 2,
+    "initial10": 'blank10',
+    "team10": 'blank',
+    "points10": 1
+    }
+    with open(cwd + "\\dat\\topTen.pkl", "wb") as f:
+        pickle.dump(b, f)
 
 # Set the size of the menu window to the size of the screen
 root.geometry(f"{screen_width}x{screen_height}")
 root.attributes('-fullscreen',True)
 
+root.bind("<Control-Insert>", resetLeader)
 root.bind("<Button-1>",runButton)
 
 # Run the main loop
