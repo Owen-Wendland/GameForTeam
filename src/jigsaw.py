@@ -196,10 +196,14 @@ def main():
     print(os.listdir(cwd + "\\images"))
     image = pygame.image.load(cwd + "\\images\\large.png")
     image = pygame.transform.scale(image,(grid_size * 12, grid_size * 5))
-    image2 = pygame.image.load(cwd + "\\images\\gradient2.jpg")
+    image2 = pygame.image.load(cwd + "\\images\\gradientnature.png")
     image2 = pygame.transform.scale(image2,(grid_size * 12, grid_size * 5))
     bimage = pygame.image.load(cwd + "\\images\\background2.png")
     bimage = pygame.transform.scale(bimage,(grid_size * 16, grid_size * 9))
+    oimage = pygame.image.load(cwd + "\\images\\large.png")
+    oimage = pygame.transform.scale(oimage,(grid_size * 4, grid_size * 2))
+    obimage = pygame.image.load(cwd + "\\images\\gradientnature.png")
+    obimage = pygame.transform.scale(obimage,(grid_size * 4, grid_size * 2))
 
     shapes = []
     
@@ -240,6 +244,8 @@ def main():
             shape.update_position(mouse_pos)
 
         screen.blit(bimage, (0, 0))
+        screen.blit(obimage, (0, grid_size * 7))
+        screen.blit(oimage, (0,grid_size * 7))
         #draw_grid(screen, grid_size=grid_size)
 
 
@@ -300,9 +306,9 @@ def main():
             with open(cwd + "\\dat\\currentPerson.pkl", 'rb') as f:
                 x = pickle.load(f)
             print(x)
-            
+            t.sleep(5)
             lasttime = False
-            t.sleep(2)
+
             RUNNING = False
             
         elif(lasttime):
