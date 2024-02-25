@@ -337,11 +337,13 @@ def main():
                 print(targetId)'''
         world.step(1 / 120.0)
         clock.tick(120)
-
+    
+    percent.font = pygame.font.Font('freesansbold.ttf', screenSize[0]//18)
+    percent.reWrite(f'YOU WON AFTER {time} SECONDS!')
+    t.sleep(5)
     subprocess.run(["python", cwd + "\\src\\sort10.py"])
     pygame.quit()
 
 
 if __name__ == "__main__":
     main()
-
