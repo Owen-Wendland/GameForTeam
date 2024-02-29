@@ -132,15 +132,15 @@ def main():
             shapeRect = shape.rect
             i = shape.id
             if i >= (gridSize2*4):
-                targetRect = (pygame.Rect(((i - (gridSize2*4)) * grid_size + (grid_size * 0), grid_size * 4 + (grid_size * 0), grid_size, grid_size)))
+                targetRect = (pygame.Rect(((i - (gridSize2*4)) * grid_size + (grid_size * 2), grid_size * 4 + (grid_size * 1), grid_size, grid_size)))
             elif i >= (gridSize2*3):
-                targetRect = (pygame.Rect(((i - (gridSize2*3)) * grid_size + (grid_size * 0), grid_size * 3 + (grid_size * 0), grid_size, grid_size)))
+                targetRect = (pygame.Rect(((i - (gridSize2*3)) * grid_size + (grid_size * 2), grid_size * 3 + (grid_size * 1), grid_size, grid_size)))
             elif i >= (gridSize2*2):
-                targetRect = (pygame.Rect(((i - (gridSize2*2)) * grid_size + (grid_size * 0), grid_size * 2 + (grid_size * 0), grid_size, grid_size)))
+                targetRect = (pygame.Rect(((i - (gridSize2*2)) * grid_size + (grid_size * 2), grid_size * 2 + (grid_size * 1), grid_size, grid_size)))
             elif i >= gridSize2:
-                targetRect = (pygame.Rect(((i - (gridSize2*1)) * grid_size + (grid_size * 0), grid_size * 1 + (grid_size * 0), grid_size, grid_size)))
+                targetRect = (pygame.Rect(((i - (gridSize2*1)) * grid_size + (grid_size * 2), grid_size * 1 + (grid_size * 1), grid_size, grid_size)))
             elif i >= 0:
-                targetRect = (pygame.Rect(((i - (gridSize2*0)) * grid_size + (grid_size * 0), grid_size * 0 + (grid_size * 0), grid_size, grid_size)))
+                targetRect = (pygame.Rect(((i - (gridSize2*0)) * grid_size + (grid_size * 2), grid_size * 0 + (grid_size * 1), grid_size, grid_size)))
             if(solve):
                 shape.rect = targetRect
             #if the shape is in the correct position 
@@ -191,7 +191,7 @@ def main():
                 except:
                     print(targetId)'''
 
-    grid_size = int(screenSize[0] / 9)  # Adjust this factor as needed
+    grid_size = int(screenSize[0] / 8.8888889)  # Adjust this factor as needed
     gridSize2 = 5
     gridSize1 = 3
     print(cwd + "\\images\\large.png")
@@ -200,7 +200,7 @@ def main():
     image = pygame.transform.scale(image,(grid_size * gridSize2, grid_size * gridSize1))
     image2 = pygame.image.load(cwd + "\\images\\naturegradient.png")
     image2 = pygame.transform.scale(image2,(screenSize[0], screenSize[1]))
-    bimage = pygame.image.load(cwd + "\\images\\background2.png")
+    bimage = pygame.image.load(cwd + "\\images\\background3.png")
     bimage = pygame.transform.scale(bimage,(screenSize[0], screenSize[1]))
     oimage = pygame.image.load(cwd + "\\images\\large.png")
     oimage = pygame.transform.scale(oimage,(grid_size * 4, grid_size * 2))
@@ -395,7 +395,6 @@ def main():
     
     percent.font = pygame.font.Font('freesansbold.ttf', screenSize[0]//18)
     percent.reWrite(f'YOU WON AFTER {time} SECONDS!')
-    t.sleep(5)
     subprocess.run(["python", cwd + "\\src\\sort10.py"])
     pygame.quit()
 

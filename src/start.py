@@ -40,12 +40,12 @@ pygame.display.set_caption("Text Input in PyGame")
 
 font = pygame.font.Font(None, WIDTH//16)
 
-manager = pygame_gui.UIManager((constants.screenSize[0], constants.screenSize[1]))
+manager = pygame_gui.UIManager((constants.screenSize[0], constants.screenSize[1]), 'theme.json')
 
 #creates the textbox, top left is at the first width/height pairing
 #then the second width/height pairing is how many pixels it expands from the original point
 text_input = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((WIDTH*(1/12), HEIGHT*(37/54)), (WIDTH*(93/320), HEIGHT*(23/125))),
-    manager=manager, object_id=('#main_text_entry'))
+    manager=manager, object_id=ObjectID('#main_text_entry'))
 
 text_input2 = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((WIDTH*(211/480), HEIGHT*(37/54)), (WIDTH*(35/192), HEIGHT*(23/125))),
     manager=manager, object_id=ObjectID('#main_text_entry2'))

@@ -64,6 +64,7 @@ def main():
     class Player():
         def __init__(self, startx, starty, width, height):
             self.qnum = 1
+            self.qnum2 = random.randint(0,qAmount-5)
             self.dir = 'right'
             self.width = width
             self.height = height
@@ -206,10 +207,11 @@ def main():
     def reset():
         global currQuestion
         player.qnum += 1
-        if player.qnum <= qAmount:
-            currAnswers = js['answers' + str(player.qnum)]
+        player.qnum2 += 1
+        if player.qnum <= 5:
+            currAnswers = js['answers' + str(player.qnum2)]
             random.shuffle(currAnswers)
-            currQuestion = js['question' + str(player.qnum)]
+            currQuestion = js['question' + str(player.qnum2)]
             
             player.ball_body.angle = 0
             player.ball_body.velocity = pymunk.Vec2d(0,0)
@@ -220,7 +222,7 @@ def main():
             text3.reWrite(currAnswers[2])
             text4.reWrite(currAnswers[3])
             question.reWrite(currQuestion)
-            question.currAnswer = js['answer' + str(player.qnum)]
+            question.currAnswer = js['answer' + str(player.qnum2)]
            
         #return(qNum + 1)
         #display question (code should go here)
@@ -229,7 +231,7 @@ def main():
     num = 0
     while RUNNING:
         timeSecond = pygame.time.get_ticks()//1000
-        if player.qnum == qAmount + 1:
+        if player.qnum == 6:
             screen.fill(BACKGROUND) # creating the sky like god did on the second day
             background()
             

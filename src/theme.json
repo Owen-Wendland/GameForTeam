@@ -1,0 +1,36 @@
+{
+    "#main_text_entry":
+    {
+        "colours":
+        {
+            "dark_bg":"#21282D",
+            "normal_border": "#000000",
+            "link_text": "#FF0000",
+            "link_hover": "#FFFF00",
+            "link_selected": "#FFFFFF"
+        },
+
+        "misc":
+        {
+            "border_width": "50",
+            "padding": "10,10",
+            "link_normal_underline": "0",
+            "link_hover_underline": "1",
+            "line_spacing": "1.0"
+        }
+    },
+    "text_entry_box.vertical_scroll_bar":
+    {
+        "colours":
+        {
+           "dark_bg": "#505068"
+        }
+    },
+    "text_entry_box.vertical_scroll_bar.#sliding_button":
+    {
+        "misc":
+        {
+           "border_width": "1"
+        }
+    }
+}

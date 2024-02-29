@@ -1,5 +1,5 @@
 {  
-    "questionAmount":3,
+    "questionAmount":8,
     
     "question1":"Whats our team number?",
     "answers1":[  
@@ -26,5 +26,50 @@
         "Cortex",
         "Spinbot"
     ],
-    "answer3":"Spinbot"
+    "answer3":"Spinbot",
+
+    "question4":"What drive is our robot?",
+    "answers4":[  
+        "Tank",
+        "Swerve",
+        "Spin",
+        "Field drive?"
+    ],
+    "answer4":"Swerve",
+
+    "question5":"What is our team color?",
+    "answers5":[  
+        "Maroon",
+        "Blue",
+        "Burgandy",
+        "Red"
+    ],
+    "answer5":"Burgandy",
+
+    "question6":"What motor controllers are we using",
+    "answers6":[  
+        "Srx's",
+        "Falcons",
+        "Swerve",
+        "SparkMax & Falcon"
+    ],
+    "answer6":"SparkMax & Falcon",
+
+    "question7":"What year did we go to worlds",
+    "answers7":[  
+        "2023",
+        "2022",
+        "2021",
+        "2020"
+    ],
+    "answer7":"2022",
+
+    "question8":"how old is our team",
+    "answers8":[
+        "9",
+        "10",
+        "11",
+        "13"
+    ],
+    "answer8":"9"
 }
