@@ -191,7 +191,7 @@ def main():
                 except:
                     print(targetId)'''
 
-    grid_size = int(screenSize[0] / 8.8888889)  # Adjust this factor as needed
+    grid_size = int(screenSize[0] / 8.8888888888888888)  # Adjust this factor as needed
     gridSize2 = 5
     gridSize1 = 3
     print(cwd + "\\images\\large.png")

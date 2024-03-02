@@ -44,6 +44,7 @@ b = {
 
 with open(cwd + "\\dat\\topTen.pkl", "wb") as f:
     pickle.dump(b, f)'''
+    
 
 with open(cwd + "\\dat\\currentPerson.pkl", 'rb') as f:
     x = pickle.load(f)

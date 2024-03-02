@@ -1,5 +1,5 @@
 {  
-    "questionAmount":8,
+    "questionAmount":9,
     
     "question1":"Whats our team number?",
     "answers1":[  
@@ -24,16 +24,16 @@
         "Cranium",
         "Reflex",
         "Cortex",
-        "Spinbot"
+        "Not decided"
     ],
-    "answer3":"Spinbot",
+    "answer3":"Not decided",
 
     "question4":"What drive is our robot?",
     "answers4":[  
         "Tank",
         "Swerve",
         "Spin",
-        "Field drive?"
+        "Field drive"
     ],
     "answer4":"Swerve",
 
@@ -46,16 +46,16 @@
     ],
     "answer5":"Burgandy",
 
-    "question6":"What motor controllers are we using",
+    "question6":"What motor controllers are we using?",
     "answers6":[  
         "Srx's",
         "Falcons",
         "Swerve",
-        "SparkMax & Falcon"
+        "SparkMax/Falcon"
     ],
-    "answer6":"SparkMax & Falcon",
+    "answer6":"SparkMax/Falcon",
 
-    "question7":"What year did we go to worlds",
+    "question7":"What year did we go to worlds?",
     "answers7":[  
         "2023",
         "2022",
@@ -64,12 +64,21 @@
     ],
     "answer7":"2022",
 
-    "question8":"how old is our team",
+    "question8":"How old is our team?",
     "answers8":[
         "9",
         "10",
         "11",
         "13"
     ],
-    "answer8":"9"
+    "answer8":"9",
+
+    "question9":"What is not a main subteam?",
+    "answers9":[
+        "Programming",
+        "Mechanical",
+        "Buisness",
+        "Media"
+    ],
+    "answer9":"Media"
 }

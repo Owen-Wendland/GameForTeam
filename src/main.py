@@ -64,7 +64,7 @@ def main():
     class Player():
         def __init__(self, startx, starty, width, height):
             self.qnum = 1
-            self.qnum2 = random.randint(0,qAmount-5)
+            self.qnum2 = random.randint(1,qAmount-5)
             self.dir = 'right'
             self.width = width
             self.height = height
@@ -150,7 +150,7 @@ def main():
             self.font = pygame.font.Font(textFont, size)
             self.textWritten = textWritten
             self.text = self.font.render(self.textWritten, True, (0,0,0))
-            self.currAnswer = js['answer' + str(1)]
+            self.currAnswer = js['answer' + str(player.qnum2)]
            
             self.location = self.text.get_rect(center = (self.x, self.y))
            
@@ -161,9 +161,11 @@ def main():
            
         def draw(self):
             screen.blit(self.text, self.location)
-           
-    currQuestion = js['question' + str(1)]
-    currAnswers = list(js['answers' + str(1)]) #setting the list of answers from the json file
+    #make the player (starting x, starting, size, mass)
+    #player = Player(screenSize[0]/2, screenSize[1]/4, abs((screenSize[0] - screenSize[1])/9), 1)
+    player = Player(screenSize[0]/2, screenSize[1]/4, screenSize[0]//16,screenSize[0]//16)      
+    currQuestion = js['question' + str(player.qnum2)]
+    currAnswers = list(js['answers' + str(player.qnum2)]) #setting the list of answers from the json file
    
     random.shuffle(currAnswers) #shuffles the position of the answers
    
@@ -175,9 +177,6 @@ def main():
     text4 = text('freesansbold.ttf', currAnswers[3], screenSize[0]*7/8, screenSize[1]/1.222222, screenSize[0]//34)
     question = text('freesansbold.ttf', currQuestion, screenSize[0]/2, screenSize[1]/8, screenSize[0]//32)
    
-    #make the player (starting x, starting, size, mass)
-    #player = Player(screenSize[0]/2, screenSize[1]/4, abs((screenSize[0] - screenSize[1])/9), 1)
-    player = Player(screenSize[0]/2, screenSize[1]/4, screenSize[0]//16,screenSize[0]//16)
     #making floor
     floor = Line((0,screenSize[1]),(screenSize[0],screenSize[1]), 1, 5)
     wall1 = Line((0,-150),(0,screenSize[1]), 0, 0)
@@ -260,7 +259,7 @@ def main():
             clock.tick(60)
             with open(cwd + "\\dat\\currentPerson.pkl", 'rb') as f:
                 x = pickle.load(f)
-            x['points'] = x['points'] + round(numcorrect * timeSecond)
+            x['points'] = x['points'] + round(numcorrect * 10 // timeSecond)
             print(x['points'])
             
             with open(cwd + "\\dat\\currentPerson.pkl", "wb") as f:
@@ -426,7 +425,7 @@ def main():
        
         world.step(1/60.0)
         clock.tick(60)
-    time.sleep(5)
+    time.sleep(2)
     
 
 if __name__ == "__main__":
