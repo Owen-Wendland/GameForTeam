@@ -1,6 +1,6 @@
 {  
-    "questionAmount":9,
-    
+    "questionAmount":20,
+   
     "question1":"Whats our team number?",
     "answers1":[  
         "5458",
@@ -9,6 +9,7 @@
         "8545"
     ],
     "answer1":"5458",
+
 
     "question2":"What language does our robot use?",
     "answers2":[  
@@ -19,6 +20,7 @@
     ],
     "answer2":"java",
 
+
     "question3":"Whats is our robot's current name?",
     "answers3":[  
         "Cranium",
@@ -27,6 +29,7 @@
         "Not decided"
     ],
     "answer3":"Not decided",
+
 
     "question4":"What drive is our robot?",
     "answers4":[  
@@ -37,6 +40,7 @@
     ],
     "answer4":"Swerve",
 
+
     "question5":"What is our team color?",
     "answers5":[  
         "Maroon",
@@ -45,6 +49,7 @@
         "Red"
     ],
     "answer5":"Burgandy",
+
 
     "question6":"What motor controllers are we using?",
     "answers6":[  
@@ -55,6 +60,7 @@
     ],
     "answer6":"SparkMax/Falcon",
 
+
     "question7":"What year did we go to worlds?",
     "answers7":[  
         "2023",
@@ -63,6 +69,7 @@
         "2020"
     ],
     "answer7":"2022",
+
 
     "question8":"How old is our team?",
     "answers8":[
@@ -73,6 +80,7 @@
     ],
     "answer8":"9",
 
+
     "question9":"What is not a main subteam?",
     "answers9":[
         "Programming",
@@ -80,5 +88,115 @@
         "Buisness",
         "Media"
     ],
-    "answer9":"Media"
+    "answer9":"Media",
+
+
+    "question10":"What MUST you follow at all times?",
+    "answers10":[
+        "FIRST code of conduct",
+        "A lemming",
+        "The supreme law of the United State",
+        "The queen and king"
+    ],
+    "answer10":"FIRST code of conduct",
+
+
+    "question11":"What is the number ONE rule?",
+    "answers11":[
+        "Gracious Professionalism",
+        "Be Safe",
+        "Be Respectful",
+        "Be Responsible"
+    ],
+    "answer11":"Gracious Professionalism",
+
+
+    "question12":"What is the robot weight limit this year?",
+    "answers12":[
+        "100",
+        "125",
+        "150",
+        "200"
+    ],
+    "answer12":"125",
+
+
+    "question13":"What is a coopertition a combination of?",
+    "answers13":[
+        "Cooperative + Competition",
+        "People + Robot",
+        "Human + Robot",
+        "Competition + Person"
+    ],
+    "answer13":"Cooperative + Competition",
+
+
+    "question14":"Where is the Sacramento regional taking place?",
+    "answers14":[
+        "Elk Grove",
+        "Davis",
+        "New York",
+        "Woodland"
+    ],
+    "answer14":"Elk Grove",
+
+
+    "question15":"How many teams are competing?",
+    "answers15":[
+        "38",
+        "25",
+        "43",
+        "3 and a half"
+    ],
+    "answer15":"38",
+
+
+    "question16":"What is this year's competition called?",
+    "answers16":[
+        "Crescendo",
+        "Music",
+        "Charged up",
+        "Mozartitis"
+    ],
+    "answer16":"Crescendo",
+
+
+    "question17":"What is the name of the game piece?",
+    "answers17":[
+        "Note",
+        "Circle",
+        "Ring",
+        "Lifebuoy"
+    ],
+    "answer17":"Note",
+
+
+    "question18":"Who coined the term gracious professionalism?",
+    "answers18":[
+        "Dean Kamen",
+        "Dean Bunn",
+        "Mark Zuckerburg",
+        "Woody Flowers"
+    ],
+    "answer18":"Woody Flowers",
+
+
+    "question19":"Which one of these is a FIRST core value?",
+    "answers19":[
+        "Fun",
+        "Professionalism",
+        "Play",
+        "Create"
+    ],
+    "answer19":"Fun",
+
+
+    "question20":"Which of these is NOT an act of Gracious Professionalism?",
+    "answers20":[
+        "Kindness",
+        "Helpful acts",
+        "Assisting teams",
+        "Unprofessionalism"
+    ],
+    "answer20":"Unprofessionalism"
 }

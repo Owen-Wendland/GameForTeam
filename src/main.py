@@ -61,6 +61,10 @@ def main():
    
     pygame.display.set_mode(screenSize, pygame.FULLSCREEN)
    
+    class variables():
+        def __init__(self):
+            self.currAnswers = []
+    var = variables()
     class Player():
         def __init__(self, startx, starty, width, height):
             self.qnum = 1
@@ -147,6 +151,7 @@ def main():
         def __init__(self, textFont, textWritten, x, y, size):
             self.x = x
             self.y = y
+            self.textFont = textFont
             self.font = pygame.font.Font(textFont, size)
             self.textWritten = textWritten
             self.text = self.font.render(self.textWritten, True, (0,0,0))
@@ -165,18 +170,21 @@ def main():
     #player = Player(screenSize[0]/2, screenSize[1]/4, abs((screenSize[0] - screenSize[1])/9), 1)
     player = Player(screenSize[0]/2, screenSize[1]/4, screenSize[0]//16,screenSize[0]//16)      
     currQuestion = js['question' + str(player.qnum2)]
-    currAnswers = list(js['answers' + str(player.qnum2)]) #setting the list of answers from the json file
+    var.currAnswers = list(js['answers' + str(player.qnum2)]) #setting the list of answers from the json file
    
-    random.shuffle(currAnswers) #shuffles the position of the answers
+    random.shuffle(var.currAnswers) #shuffles the position of the answers
    
     #displaying the question answers on the colored zones
-   
-    text1 = text('freesansbold.ttf', currAnswers[0], screenSize[0]/8, screenSize[1]/1.222222, screenSize[0]//34)
-    text2 = text('freesansbold.ttf', currAnswers[1], screenSize[0]*3/8, screenSize[1]/1.222222, screenSize[0]//34)
-    text3 = text('freesansbold.ttf', currAnswers[2], screenSize[0]*5/8, screenSize[1]/1.222222, screenSize[0]//34)
-    text4 = text('freesansbold.ttf', currAnswers[3], screenSize[0]*7/8, screenSize[1]/1.222222, screenSize[0]//34)
+    y = -10*math.log(5*len(var.currAnswers[0]) + 3) + (screenSize[0]/18.2857143)
+    text1 = text('freesansbold.ttf', var.currAnswers[0], screenSize[0]/8, screenSize[1]/1.222222, int(y))
+    y = -10*math.log(5*len(var.currAnswers[1]) + 3) + (screenSize[0]/18.2857143)
+    text2 = text('freesansbold.ttf', var.currAnswers[1], screenSize[0]*3/8, screenSize[1]/1.222222, int(y))
+    y = -10*math.log(5*len(var.currAnswers[2]) + 3) + (screenSize[0]/18.2857143)
+    text3 = text('freesansbold.ttf', var.currAnswers[2], screenSize[0]*5/8, screenSize[1]/1.222222, int(y))
+    y = -10*math.log(5*len(var.currAnswers[3]) + 3) + (screenSize[0]/18.2857143)
+    text4 = text('freesansbold.ttf', var.currAnswers[3], screenSize[0]*7/8, screenSize[1]/1.222222, int(y))
     question = text('freesansbold.ttf', currQuestion, screenSize[0]/2, screenSize[1]/8, screenSize[0]//32)
-   
+            
     #making floor
     floor = Line((0,screenSize[1]),(screenSize[0],screenSize[1]), 1, 5)
     wall1 = Line((0,-150),(0,screenSize[1]), 0, 0)
@@ -208,18 +216,37 @@ def main():
         player.qnum += 1
         player.qnum2 += 1
         if player.qnum <= 5:
-            currAnswers = js['answers' + str(player.qnum2)]
-            random.shuffle(currAnswers)
+            var.currAnswers = js['answers' + str(player.qnum2)]
+            random.shuffle(var.currAnswers)
             currQuestion = js['question' + str(player.qnum2)]
             
             player.ball_body.angle = 0
             player.ball_body.velocity = pymunk.Vec2d(0,0)
             player.ball_body.position = (screenSize[0]/2,screenSize[1]/4)
             
-            text1.reWrite(currAnswers[0])
-            text2.reWrite(currAnswers[1])
-            text3.reWrite(currAnswers[2])
-            text4.reWrite(currAnswers[3])
+            text1.reWrite(var.currAnswers[0])
+            text2.reWrite(var.currAnswers[1])
+            text3.reWrite(var.currAnswers[2])
+            text4.reWrite(var.currAnswers[3])
+            
+            print(len(str(var.currAnswers[0])))
+            print(len(str(var.currAnswers[1])))
+            print(len(str(var.currAnswers[2])))
+            print(len(str(var.currAnswers[3])))
+            y = -10*math.log(5*len(var.currAnswers[0]) + 3) + (screenSize[0]/18.2857143)
+            text1.font = pygame.font.Font(text1.textFont, int(y))
+            y = -10*math.log(5*len(var.currAnswers[1]) + 3) + (screenSize[0]/18.2857143)
+            text2.font = pygame.font.Font(text2.textFont, int(y))
+            y = -10*math.log(5*len(var.currAnswers[2]) + 3) + (screenSize[0]/18.2857143)
+            text3.font = pygame.font.Font(text3.textFont, int(y))
+            y = -10*math.log(5*len(var.currAnswers[3]) + 3) + (screenSize[0]/18.2857143)
+            text4.font = pygame.font.Font(text4.textFont, int(y))
+            
+            text1.reWrite(var.currAnswers[0])
+            text2.reWrite(var.currAnswers[1])
+            text3.reWrite(var.currAnswers[2])
+            text4.reWrite(var.currAnswers[3])
+            
             question.reWrite(currQuestion)
             question.currAnswer = js['answer' + str(player.qnum2)]
            
@@ -229,6 +256,7 @@ def main():
     rotate = False
     num = 0
     while RUNNING:
+       
         timeSecond = pygame.time.get_ticks()//1000
         if player.qnum == 6:
             screen.fill(BACKGROUND) # creating the sky like god did on the second day
