@@ -208,9 +208,13 @@ def main():
     obimage = pygame.transform.scale(obimage,(grid_size * 4, grid_size * 2))
 
     shapes = []
-    
+    acceptedPoints = [(1,0),(1,1),(1,2),(1,3),(1,4),(0,0),(0,1),(0,2),(0,3),(0,4),(7,0),(7,1),(7,2),(7,3),(7,4),(8,0),(8,1),(8,2),(8,3),(8,4)] 
     for i in range(gridSize2 * gridSize1):
-        shapes.append(DraggableShape(i,pygame.Rect(50, 50, grid_size, grid_size), grid_size, (random.randint(0,255), random.randint(0,255), random.randint(0,255))))
+        random.shuffle(acceptedPoints)
+        randomxy = acceptedPoints[0]
+        acceptedPoints.pop(0)
+                
+        shapes.append(DraggableShape(i,pygame.Rect(grid_size*randomxy[0], grid_size*randomxy[1], grid_size, grid_size), grid_size, (random.randint(0,255), random.randint(0,255), random.randint(0,255))))
 
     solve = False
     
@@ -225,8 +229,9 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     RUNNING = False
-                if event.key == pygame.K_p:
-                    solve = True
+                #Insta win key for testing
+                #if event.key == pygame.K_p:
+                    #solve = True
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:  # Left mouse button
                     for shape in shapes:

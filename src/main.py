@@ -255,7 +255,7 @@ def main():
             txtx2 = str(round(numcorrect * 450 // timeSecond))
             question.reWrite(txtx1 + txtx2)
             pygame.display.update()
-            world.step(1/60.0)
+            world.step(1/120.0)
             clock.tick(60)
             with open(cwd + "\\dat\\currentPerson.pkl", 'rb') as f:
                 x = pickle.load(f)
@@ -355,7 +355,7 @@ def main():
                         rotate = True
                         num = 0
                 if event.key == pygame.K_LSHIFT:
-                    vel = 200
+                    vel = 400
             if event.type == pygame.KEYUP: #if there is a key up then see which key(s) are up and respond
                 if (event.key == pygame.K_LEFT) or (event.key == pygame.K_a):
                     left = False
@@ -373,7 +373,7 @@ def main():
                         first1 = pymunk.Vec2d(first1[0], -500)
                         player.ball_body.velocity = first1
                 if event.key == pygame.K_LSHIFT:
-                    vel = 100
+                    vel = 200
         #if(player.ball_shape.collision_type = )
         #print(int(player.angle_degrees))
         if right:

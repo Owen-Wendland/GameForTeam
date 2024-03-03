@@ -23,7 +23,7 @@ screen_width = constants.screenSize[0]
 screen_height = constants.screenSize[1]
 
 # Read the Image
-background_image = Image.open(cwd + "\\images\\menu2.png")
+background_image = Image.open(cwd + "\\images\\menu8.png")
 
 # Resize the image using resize() method
 background_image = background_image.resize((screen_width, screen_height))
@@ -42,7 +42,7 @@ pList = []
 class variables():
     def __init__(self):
         self.background_label = 1
-        self.activated = list((0,0))
+        self.activated = list((0,1))
 
 Variables = variables()
 
@@ -155,7 +155,7 @@ def switchLeaderboard():
             backgroundlabel.image = background_image
             backgroundlabel.update()
         else:
-            background_image = Image.open(cwd + "\\images\\menu2.png")
+            background_image = Image.open(cwd + "\\images\\menu8.png")
 
             # Resize the image using resize() method
             background_image = background_image.resize((screen_width, screen_height))
@@ -229,6 +229,7 @@ def runButton(event):
         if(int(screen_height * (13/36)) < y and y < int(screen_height * (41/72))):
             if(int(screen_width* (9/160)) < x and x < int(screen_width * (15/32)) and Variables.activated[0] == 0):
                 Variables.activated[0] = 1
+                Variables.activated[1] = 0
                 run_quiz()
 
             if(int(screen_width* (33/64)) < x and x < int(screen_width * (89/96)) and Variables.activated[1] == 0):

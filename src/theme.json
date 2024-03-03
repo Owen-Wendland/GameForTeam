@@ -3,20 +3,58 @@
     {
         "colours":
         {
-            "dark_bg":"#21282D",
-            "normal_border": "#000000",
-            "link_text": "#FF0000",
+            "dark_bg":"#b80020",
+            "normal_border": "#FFFFFF00",
+            "normal_text": "#FFFFFF",
             "link_hover": "#FFFF00",
-            "link_selected": "#FFFFFF"
+            "link_selected": "#FFFFFF00"
         },
 
         "misc":
         {
-            "border_width": "50",
+            "border_width": "5",
             "padding": "10,10",
             "link_normal_underline": "0",
             "link_hover_underline": "1",
             "line_spacing": "1.0"
+        },
+        "font":
+        {
+            "name": "montserrat",
+            "size": "60",
+            "regular_resource": {
+                "package": "montserrat",
+                "resource": "Montserrat-Black.otf"
+            }
+        }
+    },
+    "#main_text_entry2":
+    {
+        "colours":
+        {
+            "dark_bg":"#b80020",
+            "normal_border": "#FFFFFF00",
+            "normal_text": "#FFFFFF",
+            "link_hover": "#FFFF00",
+            "link_selected": "#FFFFFF00"
+        },
+
+        "misc":
+        {
+            "border_width": "5",
+            "padding": "10,10",
+            "link_normal_underline": "0",
+            "link_hover_underline": "1",
+            "line_spacing": "1.0"
+        },
+        "font":
+        {
+            "name": "montserrat",
+            "size": "60",
+            "regular_resource": {
+                "package": "montserrat",
+                "resource": "Montserrat-Black.otf"
+            }
         }
     },
     "text_entry_box.vertical_scroll_bar":
