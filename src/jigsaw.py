@@ -34,12 +34,16 @@ def main():
     global RUNNING
     RUNNING = True
 
-
+    ding = pygame.mixer.Sound(cwd + '\\ding.mp3')
+    wrong = pygame.mixer.Sound(cwd + '\\wrong.mp3')
+    
     screen = pygame.display.set_mode((screenSize[0] * 2, screenSize[1] * 2))
     clock = pygame.time.Clock()
     pygame.display.set_mode(screenSize, pygame.FULLSCREEN)
-
-
+    class vars():
+        def __init__(self):
+            self.past = 0
+    variables = vars()
     class DraggableShape:
         def __init__(self, id, rect, grid_size, color):
             self.id = id
@@ -97,6 +101,7 @@ def main():
             else:
                 self.rect.x = round(self.rect.x / self.grid_size) * self.grid_size
                 self.rect.y = round(self.rect.y / self.grid_size) * self.grid_size
+                
 
     class text():
         def __init__(self, textFont, textWritten, x, y, size):
@@ -217,14 +222,28 @@ def main():
         shapes.append(DraggableShape(i,pygame.Rect(grid_size*randomxy[0], grid_size*randomxy[1], grid_size, grid_size), grid_size, (random.randint(0,255), random.randint(0,255), random.randint(0,255))))
 
     solve = False
-    
+    ran = False
     while RUNNING:
         #checkSquareConnected()
         events = pygame.event.get()
         screen.fill(BACKGROUND)
         percentCompleted = check_all_squares_position(shapes, grid_size, solve)
+        
         time = pygame.time.get_ticks()//1000
+        
+        if variables.past != percentCompleted and variables.past < percentCompleted:
+            pygame.mixer.Sound.stop(ding)
+            pygame.mixer.Sound.stop(wrong)
+            pygame.mixer.Sound.play(ding)
+            variables.past = percentCompleted
+            ran = False
             
+        elif(variables.past == percentCompleted and ran == True):
+            pygame.mixer.Sound.stop(ding)
+            pygame.mixer.Sound.stop(wrong)
+            pygame.mixer.Sound.play(wrong)
+            ran = False
+        
         for event in events:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
@@ -244,8 +263,8 @@ def main():
                         if shape.dragging:
                             shape.dragging = False
                             shape.snap_to_grid(shapes)
-
-
+                            ran = True
+                            
         mouse_pos = pygame.mouse.get_pos()
         for shape in shapes:
             shape.update_position(mouse_pos)

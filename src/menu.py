@@ -1,4 +1,5 @@
 import pickle
+import time
 from tkinter import *
 import subprocess
 import shutil
@@ -6,6 +7,7 @@ import os
 import sys
 from tkinter import messagebox
 from PIL import Image, ImageTk
+from threading import Thread
 
 cwd = os.getcwd()
 cwd = str(cwd)
@@ -43,6 +45,7 @@ class variables():
     def __init__(self):
         self.background_label = 1
         self.activated = list((0,1))
+        self.past = ''
 
 Variables = variables()
 
@@ -63,8 +66,9 @@ def choose_jigsaw_image():
 
     # Create a listbox to display the images
     listbox = Listbox(selection_window, selectmode=SINGLE)
-    listbox.pack(padx=10, pady=10)
-
+    listbox.pack(padx=0, pady=0)
+    listbox.configure(background="#b80020", foreground="#FFFFFF", font=('Aerial 13', screen_width//64),width=screen_width//2)
+    
     # Populate the listbox with image file names
     for image_file in image_files:
         listbox.insert(END, image_file)
@@ -288,13 +292,69 @@ def resetLeader(event):
     }
     with open(cwd + "\\dat\\topTen.pkl", "wb") as f:
         pickle.dump(b, f)
+def change():
+    if(Variables.background_label == 1):
+        if(Variables.activated[0] == 1 and Variables.activated[1] == 1):
+            background_image = Image.open(cwd + "\\images\\menu7.png")
 
+            # Resize the image using resize() method
+            background_image = background_image.resize((screen_width, screen_height))
+
+            background_image = ImageTk.PhotoImage(master=root,image=background_image)
+
+            backgroundlabel.configure(image=background_image)
+            backgroundlabel.image = background_image
+        elif(Variables.activated[0] == 1):
+            background_image = Image.open(cwd + "\\images\\menu9.png")
+
+            # Resize the image using resize() method
+            background_image = background_image.resize((screen_width, screen_height))
+
+            background_image = ImageTk.PhotoImage(master=root,image=background_image)
+
+            backgroundlabel.configure(image=background_image)
+            backgroundlabel.image = background_image
+        elif(Variables.activated[1] == 1):
+            background_image = Image.open(cwd + "\\images\\menu8.png")
+
+            # Resize the image using resize() method
+            background_image = background_image.resize((screen_width, screen_height))
+
+            background_image = ImageTk.PhotoImage(master=root,image=background_image)
+
+            backgroundlabel.configure(image=background_image)
+            backgroundlabel.image = background_image
+            backgroundlabel.update()
+    elif(Variables.background_label == 2):
+        Variables.background_label = 2
+        # Read the Image
+        background_image = Image.open(cwd + "\\images\\menu3.png")
+
+        # Resize the image using resize() method
+        background_image = background_image.resize((screen_width, screen_height))
+
+        background_image = ImageTk.PhotoImage(master=root,image=background_image)
+
+        backgroundlabel.configure(image=background_image)
+        backgroundlabel.image = background_image
+        backgroundlabel.update()
+        for i in range(len(tList)):
+            if(i < 5):
+                tList[i].place(x=screen_width * 1//6,y=screen_height//8.08181818182*(i+3) - 30)
+                iList[i].place(x=screen_width * 13/48,y=screen_height//8.08181818182*(i+3) - 30)
+                pList[i].place(x=screen_width * 139/384,y=screen_height//8.08181818182*(i+3) - 30)
+            else:
+                tList[i].place(x=screen_width * 40//64,y=screen_height//8.08181818182*(i+3-5) - 30)
+                iList[i].place(x=screen_width * 93/128,y=screen_height//8.08181818182*(i+3-5) - 30)
+                pList[i].place(x=screen_width * 157/192,y=screen_height//8.08181818182*(i+3-5) - 30)
+    root.after(200, change)
+            
 # Set the size of the menu window to the size of the screen
 root.geometry(f"{screen_width}x{screen_height}")
 root.attributes('-fullscreen',True)
 
 root.bind("<Control-Insert>", resetLeader)
 root.bind("<Button-1>",runButton)
-
+root.after(500, change)
 # Run the main loop
 root.mainloop()

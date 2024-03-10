@@ -33,14 +33,14 @@ def main():
     right = False
     up = False
     down = False
-    vel = 100
+    vel = 300
     global RUNNING 
     RUNNING = True
     
     #sounds
     walking = pygame.mixer.Sound(cwd + '\\walking.mp3')
    
-    timeTakeForNewQuestion = 3
+    timeTakeForNewQuestion = 2
     chosen = ''
     correct = False
     numcorrect = 0
@@ -68,7 +68,8 @@ def main():
     class Player():
         def __init__(self, startx, starty, width, height):
             self.qnum = 1
-            self.qnum2 = random.randint(1,qAmount-5)
+           # self.qnum2 = random.randint(1,qAmount-5)
+            self.qnum2 = 8
             self.dir = 'right'
             self.width = width
             self.height = height
@@ -175,15 +176,17 @@ def main():
     random.shuffle(var.currAnswers) #shuffles the position of the answers
    
     #displaying the question answers on the colored zones
-    y = -10*math.log(5*len(var.currAnswers[0]) + 3) + (screenSize[0]/18.2857143)
-    text1 = text('freesansbold.ttf', var.currAnswers[0], screenSize[0]/8, screenSize[1]/1.222222, int(y))
-    y = -10*math.log(5*len(var.currAnswers[1]) + 3) + (screenSize[0]/18.2857143)
-    text2 = text('freesansbold.ttf', var.currAnswers[1], screenSize[0]*3/8, screenSize[1]/1.222222, int(y))
-    y = -10*math.log(5*len(var.currAnswers[2]) + 3) + (screenSize[0]/18.2857143)
-    text3 = text('freesansbold.ttf', var.currAnswers[2], screenSize[0]*5/8, screenSize[1]/1.222222, int(y))
-    y = -10*math.log(5*len(var.currAnswers[3]) + 3) + (screenSize[0]/18.2857143)
-    text4 = text('freesansbold.ttf', var.currAnswers[3], screenSize[0]*7/8, screenSize[1]/1.222222, int(y))
-    question = text('freesansbold.ttf', currQuestion, screenSize[0]/2, screenSize[1]/8, screenSize[0]//32)
+    b = screenSize[0]/1470.0
+    #b = 1
+    y = (840/len(var.currAnswers[0]))//b
+    text1 = text('Go-Mono.ttf', var.currAnswers[0], screenSize[0]/8, screenSize[1]*5/6, int(y))
+    y = (840/len(var.currAnswers[1]))//b
+    text2 = text('Go-Mono.ttf', var.currAnswers[1], screenSize[0]*3/8, screenSize[1]*5/6, int(y))
+    y = (840/len(var.currAnswers[2]))//b
+    text3 = text('Go-Mono.ttf', var.currAnswers[2], screenSize[0]*5/8, screenSize[1]*5/6, int(y))
+    y = (840/len(var.currAnswers[3]))//b
+    text4 = text('Go-Mono.ttf', var.currAnswers[3], screenSize[0]*7/8, screenSize[1]*5/6, int(y))
+    question = text('Go-Mono.ttf', currQuestion, screenSize[0]/2, screenSize[1]/8, screenSize[0]//32)
             
     #making floor
     floor = Line((0,screenSize[1]),(screenSize[0],screenSize[1]), 1, 5)
@@ -233,13 +236,14 @@ def main():
             print(len(str(var.currAnswers[1])))
             print(len(str(var.currAnswers[2])))
             print(len(str(var.currAnswers[3])))
-            y = -10*math.log(5*len(var.currAnswers[0]) + 3) + (screenSize[0]/18.2857143)
+            b = screenSize[0]/1470.0
+            y = (600/len(var.currAnswers[0]))//b
             text1.font = pygame.font.Font(text1.textFont, int(y))
-            y = -10*math.log(5*len(var.currAnswers[1]) + 3) + (screenSize[0]/18.2857143)
+            y = (600/len(var.currAnswers[0]))//b
             text2.font = pygame.font.Font(text2.textFont, int(y))
-            y = -10*math.log(5*len(var.currAnswers[2]) + 3) + (screenSize[0]/18.2857143)
+            y = (600/len(var.currAnswers[0]))//b
             text3.font = pygame.font.Font(text3.textFont, int(y))
-            y = -10*math.log(5*len(var.currAnswers[3]) + 3) + (screenSize[0]/18.2857143)
+            y = (600/len(var.currAnswers[0]))//b
             text4.font = pygame.font.Font(text4.textFont, int(y))
             
             text1.reWrite(var.currAnswers[0])
@@ -287,7 +291,7 @@ def main():
             clock.tick(60)
             with open(cwd + "\\dat\\currentPerson.pkl", 'rb') as f:
                 x = pickle.load(f)
-            x['points'] = x['points'] + round(numcorrect * 10 // timeSecond)
+            x['points'] = x['points'] + round(numcorrect * 100 // timeSecond)
             print(x['points'])
             
             with open(cwd + "\\dat\\currentPerson.pkl", "wb") as f:
@@ -383,7 +387,7 @@ def main():
                         rotate = True
                         num = 0
                 if event.key == pygame.K_LSHIFT:
-                    vel = 400
+                    vel = 600
             if event.type == pygame.KEYUP: #if there is a key up then see which key(s) are up and respond
                 if (event.key == pygame.K_LEFT) or (event.key == pygame.K_a):
                     left = False
@@ -401,7 +405,7 @@ def main():
                         first1 = pymunk.Vec2d(first1[0], -500)
                         player.ball_body.velocity = first1
                 if event.key == pygame.K_LSHIFT:
-                    vel = 200
+                    vel = 300
         #if(player.ball_shape.collision_type = )
         #print(int(player.angle_degrees))
         if right:
