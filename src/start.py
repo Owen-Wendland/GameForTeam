@@ -74,42 +74,10 @@ def show_user_name():
                     pygame.quit()
 
         SCREEN.fill(BURGANDY)
-        image = pygame.image.load(cwd + "\\images\\menu10.png")
-        image = pygame.transform.scale(image,(WIDTH, HEIGHT))
+        #image = pygame.image.load(cwd + "\\images\\menu10.png")
+        #image = pygame.transform.scale(image,(WIDTH, HEIGHT))
         SCREEN.blit(image, (0, 0))
         
-        if(var.first):
-            person = {
-                "initial": var.initial,
-                "team": var.team,
-                "points": 0
-            }
-            with open(cwd + "\\dat\\currentPerson.pkl", "wb") as f:
-                f.truncate(0)
-                pickle.dump(person, f)
-            while(var.first):
-                events = pygame.event.get()
-                for event in events:
-                    if event.type == pygame.MOUSEBUTTONDOWN:
-                        var.first = False
-                clock.tick(60)
-                pygame.display.update()
-              
-            '''  TESTING FOR FILE READING DICTIONARY
-            with open(cwd + "\\dat\\currentPerson.pkl", 'rb') as f:
-                x = pickle.load(f)
-            x['points'] = 1000
-            print(x['points'])
-            
-            with open(cwd + "\\dat\\currentPerson.pkl", "wb") as f:
-                f.truncate(0)
-                pickle.dump(x, f)
-                
-            with open(cwd + "\\dat\\currentPerson.pkl", 'rb') as f:
-                x = pickle.load(f)
-            print(x['points'])
-            '''
-                
         clock.tick(60)
         pygame.display.update()
         subprocess.run(["python", cwd + "\\src\\menu.py"])

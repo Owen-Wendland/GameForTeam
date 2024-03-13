@@ -197,6 +197,7 @@ def runButton(event):
             pList.append(Label(root, text=(z[pz]), font=("Arial", 20), background='#b80020', foreground=('#FFFFFF')))
     x = event.x
     y = event.y
+    print(x,y)
     #menu page 1
     if(Variables.activated[0] == 1 and Variables.activated[1] == 1):
         background_image = Image.open(cwd + "\\images\\menu7.png")
@@ -230,20 +231,20 @@ def runButton(event):
         backgroundlabel.image = background_image
         backgroundlabel.update()
     if(Variables.background_label == 1):
-        if(int(screen_height * (13/36)) < y and y < int(screen_height * (41/72))):
-            if(int(screen_width* (9/160)) < x and x < int(screen_width * (15/32)) and Variables.activated[0] == 0):
+        if(int(screen_height * (4/9)) > y and y > int(screen_height * (3/9))):
+            if(int(screen_width* (27/32)) > x and x > int(screen_width * (22/32)) and Variables.activated[0] == 0):
                 Variables.activated[0] = 1
                 Variables.activated[1] = 0
                 run_quiz()
 
-            if(int(screen_width* (33/64)) < x and x < int(screen_width * (89/96)) and Variables.activated[1] == 0):
+            if(int(screen_width* (10/32)) > x and x > int(screen_width * (5/32))and Variables.activated[1] == 0):
                 choose_jigsaw_image()
-
-        elif(int(screen_height * (2/3)) < y and y < int(screen_height * (7/8))):
-            if(int(screen_width* (9/160)) < x and x < int(screen_width * (15/32))):
+                
+            if(int(screen_width* (18/32)) > x and x > int(screen_width * (15/32))):
                 switchLeaderboard()
-
-            if(int(screen_width* (33/64)) < x and x < int(screen_width * (89/96))):
+                
+        elif(int(screen_height * (7/9)) < y and y < int(screen_height * (31/32))):
+            if(int(screen_width* (1/32)) < x and x < int(screen_width * (7/32))):
                 exit_program()
 
     #menu page 2 (leaderboard menu)

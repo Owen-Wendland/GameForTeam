@@ -19,7 +19,7 @@ import constants
 def main():
     pygame.init()
    
-    BACKGROUND = (150, 150, 150) #making the background color
+    BACKGROUND = (250, 150, 150) #making the background color
    
     world = pymunk.Space()
     world.gravity = (0, 1000) #sets gravity
@@ -68,8 +68,7 @@ def main():
     class Player():
         def __init__(self, startx, starty, width, height):
             self.qnum = 1
-           # self.qnum2 = random.randint(1,qAmount-5)
-            self.qnum2 = 8
+            self.qnum2 = random.randint(1,qAmount-5)
             self.dir = 'right'
             self.width = width
             self.height = height
@@ -137,7 +136,7 @@ def main():
     class Line():
         def __init__(self, firstpoint, secondpoint, ela, fric):
             self.point1, self.point2 = firstpoint, secondpoint
-            self.width = screenSize[0]//screenSize[1]*6 #Width of lines
+            self.width = screenSize[0]//screenSize[1]*13 #Width of lines
            
             self.lineBody = pymunk.Body(body_type=pymunk.Body.STATIC) #anchoring the floor
             self.lineShape = pymunk.Segment(self.lineBody, (self.point1), (self.point2), self.width) #connecting the two points to form floor line
@@ -145,7 +144,7 @@ def main():
             self.lineShape.friction = fric # idk lol
             world.add(self.lineShape, self.lineBody) #creating the land like god did on the third day  
         def draw(self):
-            pygame.draw.line(screen, (0,0,0), (self.point1), (self.point2), self.width)
+            pygame.draw.line(screen, (0,0,0), (self.point1), (self.point2), self.width//2)
    
     #class for writing text
     class text():
@@ -176,15 +175,14 @@ def main():
     random.shuffle(var.currAnswers) #shuffles the position of the answers
    
     #displaying the question answers on the colored zones
-    b = screenSize[0]/1470.0
-    #b = 1
-    y = (840/len(var.currAnswers[0]))//b
+    b = screenSize[0]/825.806451613
+    y = (800/len(var.currAnswers[0]))//b
     text1 = text('Go-Mono.ttf', var.currAnswers[0], screenSize[0]/8, screenSize[1]*5/6, int(y))
-    y = (840/len(var.currAnswers[1]))//b
+    y = (800/len(var.currAnswers[1]))//b
     text2 = text('Go-Mono.ttf', var.currAnswers[1], screenSize[0]*3/8, screenSize[1]*5/6, int(y))
-    y = (840/len(var.currAnswers[2]))//b
+    y = (800/len(var.currAnswers[2]))//b
     text3 = text('Go-Mono.ttf', var.currAnswers[2], screenSize[0]*5/8, screenSize[1]*5/6, int(y))
-    y = (840/len(var.currAnswers[3]))//b
+    y = (800/len(var.currAnswers[3]))//b
     text4 = text('Go-Mono.ttf', var.currAnswers[3], screenSize[0]*7/8, screenSize[1]*5/6, int(y))
     question = text('Go-Mono.ttf', currQuestion, screenSize[0]/2, screenSize[1]/8, screenSize[0]//32)
             
@@ -236,14 +234,14 @@ def main():
             print(len(str(var.currAnswers[1])))
             print(len(str(var.currAnswers[2])))
             print(len(str(var.currAnswers[3])))
-            b = screenSize[0]/1470.0
-            y = (600/len(var.currAnswers[0]))//b
+            b = screenSize[0]/825.806451613
+            y = (800/len(var.currAnswers[0]))//b
             text1.font = pygame.font.Font(text1.textFont, int(y))
-            y = (600/len(var.currAnswers[0]))//b
+            y = (800/len(var.currAnswers[1]))//b
             text2.font = pygame.font.Font(text2.textFont, int(y))
-            y = (600/len(var.currAnswers[0]))//b
+            y = (800/len(var.currAnswers[2]))//b
             text3.font = pygame.font.Font(text3.textFont, int(y))
-            y = (600/len(var.currAnswers[0]))//b
+            y = (800/len(var.currAnswers[3]))//b
             text4.font = pygame.font.Font(text4.textFont, int(y))
             
             text1.reWrite(var.currAnswers[0])
@@ -259,6 +257,7 @@ def main():
     first = True
     rotate = False
     num = 0
+    term = 60
     while RUNNING:
        
         timeSecond = pygame.time.get_ticks()//1000
@@ -386,8 +385,9 @@ def main():
                     if(player.angle_degrees > 89 or player.angle_degrees < -89):
                         rotate = True
                         num = 0
-                if event.key == pygame.K_LSHIFT:
-                    vel = 600
+                if (event.key == pygame.K_LSHIFT) or (event.key == pygame.K_RSHIFT):
+                    vel = 300
+                    term = 40
             if event.type == pygame.KEYUP: #if there is a key up then see which key(s) are up and respond
                 if (event.key == pygame.K_LEFT) or (event.key == pygame.K_a):
                     left = False
@@ -406,6 +406,7 @@ def main():
                         player.ball_body.velocity = first1
                 if event.key == pygame.K_LSHIFT:
                     vel = 300
+                    term = 60
         #if(player.ball_shape.collision_type = )
         #print(int(player.angle_degrees))
         if right:
@@ -455,7 +456,7 @@ def main():
                 num = 0'''
         pygame.display.update()
        
-        world.step(1/60.0)
+        world.step(1/term)
         clock.tick(60)
     time.sleep(2)
     

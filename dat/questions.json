@@ -1,7 +1,7 @@
 {  
     "questionAmount":20,
    
-    "question1":"Whats our team number?",
+    "question1":"What is our team number?",
     "answers1":[  
         "5458",
         "1678",
@@ -11,7 +11,7 @@
     "answer1":"5458",
 
 
-    "question2":"What language does our robot use?",
+    "question2":"What programming language does our robot run in?",
     "answers2":[  
         "java",
         "python",
@@ -21,17 +21,17 @@
     "answer2":"java",
 
 
-    "question3":"Whats is our robot's current name?",
+    "question3":"What is our robot's current name?",
     "answers3":[  
         "Cranium",
         "Reflex",
         "Cortex",
-        "Not decided"
+        "Cerebellum"
     ],
-    "answer3":"Not decided",
+    "answer3":"Cerebellum",
 
 
-    "question4":"What drive is our robot?",
+    "question4":"What drivetrain does our robot use?",
     "answers4":[  
         "Tank",
         "Swerve",
@@ -51,7 +51,7 @@
     "answer5":"Burgandy",
 
 
-    "question6":"What motor controllers are we using?",
+    "question6":"What motor controller(s) are we using?",
     "answers6":[  
         "Srx's",
         "Falcons",
@@ -73,35 +73,35 @@
 
     "question8":"How old is our team?",
     "answers8":[
-        "9",
-        "10",
-        "11",
-        "13"
+        "Nine",
+        "Ten",
+        "Eleven",
+        "Thirteen"
     ],
-    "answer8":"9",
+    "answer8":"Nine",
 
 
     "question9":"What is not a main subteam?",
     "answers9":[
         "Programming",
         "Mechanical",
-        "Buisness",
-        "Media"
+        "Busisness",
+        "Safety"
     ],
-    "answer9":"Media",
+    "answer9":"Safety",
 
 
     "question10":"What MUST you follow at all times?",
     "answers10":[
         "FIRST code of conduct",
-        "A lemming",
-        "The supreme law of the United State",
-        "The queen and king"
+        "Help another team",
+        "Be unkind",
+        "A lemming"
     ],
     "answer10":"FIRST code of conduct",
 
 
-    "question11":"What is the number ONE rule?",
+    "question11":"What is the number one rule?",
     "answers11":[
         "Gracious Professionalism",
         "Be Safe",
@@ -131,7 +131,7 @@
     "answer13":"Cooperative + Competition",
 
 
-    "question14":"Where is the Sacramento regional taking place?",
+    "question14":"Where is the Sacramento Regional taking place?",
     "answers14":[
         "Elk Grove",
         "Davis",
@@ -141,12 +141,13 @@
     "answer14":"Elk Grove",
 
 
-    "question15":"How many teams are competing?",
+    "question15":"How many teams are competing at this event?",
     "answers15":[
         "38",
         "25",
         "43",
-        "3 and a half"
+        "3 and a half",
+        "896"
     ],
     "answer15":"38",
 
