@@ -67,7 +67,7 @@ def choose_jigsaw_image():
     # Create a listbox to display the images
     listbox = Listbox(selection_window, selectmode=SINGLE)
     listbox.pack(padx=0, pady=0)
-    listbox.configure(background="#b80020", foreground="#FFFFFF", font=('Aerial 13', screen_width//64),width=screen_width//2)
+    listbox.configure(background="#b80020", foreground="#FFFFFF", font=('Aerial 13', screen_width//64),width=screen_width//32)
     
     # Populate the listbox with image file names
     for image_file in image_files:

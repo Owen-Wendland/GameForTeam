@@ -175,7 +175,7 @@ def main():
     random.shuffle(var.currAnswers) #shuffles the position of the answers
    
     #displaying the question answers on the colored zones
-    b = screenSize[0]/825.806451613
+    b = screenSize[0]/1225.806451613
     y = (800/len(var.currAnswers[0]))//b
     text1 = text('Go-Mono.ttf', var.currAnswers[0], screenSize[0]/8, screenSize[1]*5/6, int(y))
     y = (800/len(var.currAnswers[1]))//b
@@ -234,7 +234,7 @@ def main():
             print(len(str(var.currAnswers[1])))
             print(len(str(var.currAnswers[2])))
             print(len(str(var.currAnswers[3])))
-            b = screenSize[0]/825.806451613
+            b = screenSize[0]/1225.806451613
             y = (800/len(var.currAnswers[0]))//b
             text1.font = pygame.font.Font(text1.textFont, int(y))
             y = (800/len(var.currAnswers[1]))//b
